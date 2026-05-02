@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorFondoPersonalizado">
+
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/level_header_height"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingStart="@dimen/margin_medium"
+        android:paddingEnd="@dimen/margin_medium"
+        android:paddingTop="@dimen/level_header_padding_top"
+        android:paddingBottom="@dimen/margin_explanation_small"
+        android:background="?attr/colorTarjetaBloque"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/tv_level_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/levels_title"
+            android:textColor="?attr/colorTextoPersonalizado"
+            android:textSize="@dimen/text_level_title"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_level_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/levels_subtitle"
+            android:textColor="@color/gray_medium"
+            android:textSize="@dimen/text_score"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/level_subtitle_margin_top" />
+
+        <TextView
+            android:id="@+id/tv_block_name_level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/level_block_name_default"
+            android:textColor="@color/neo_black"
+            android:textSize="@dimen/text_level_tag"
+            android:textStyle="bold"
+            android:paddingStart="@dimen/level_tag_padding_horizontal"
+            android:paddingEnd="@dimen/level_tag_padding_horizontal"
+            android:paddingTop="@dimen/level_tag_padding_vertical"
+            android:paddingBottom="@dimen/level_tag_padding_vertical"
+            android:background="@drawable/bg_neobrutal_tag"
+            android:layout_marginTop="@dimen/margin_score_edge"
+            android:rotation="@integer/level_tag_rotation" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/back_level_container"
+        android:layout_width="@dimen/neo_icon_container_size"
+        android:layout_height="@dimen/neo_icon_container_size"
+        android:layout_marginStart="@dimen/level_header_edge_margin"
+        android:layout_marginTop="@dimen/margin_xsmall"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <View
+            android:layout_width="@dimen/icon_size_large"
+            android:layout_height="@dimen/icon_size_large"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_shadow_icon"
+            android:translationX="@dimen/shadow_offset_small"
+            android:translationY="@dimen/shadow_offset_small" />
+
+        <ImageButton
+            android:id="@+id/btn_back_level"
+            android:layout_width="@dimen/icon_size_large"
+            android:layout_height="@dimen/icon_size_large"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_neobrutal_icon"
+            android:src="@drawable/ic_arrow_back"
+            android:padding="@dimen/icon_padding_medium"
+            android:contentDescription="@string/btn_back"
+            app:tint="@color/neo_black" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/score_level_container"
+        android:layout_width="@dimen/score_container_width"
+        android:layout_height="@dimen/score_container_height"
+        android:layout_marginTop="@dimen/level_score_margin_top"
+        android:layout_marginEnd="@dimen/level_header_edge_margin"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <View
+            android:layout_width="@dimen/score_tag_width"
+            android:layout_height="@dimen/score_tag_height"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_neobrutal_tag_shadow"
+            android:translationX="@dimen/shadow_offset_small"
+            android:translationY="@dimen/shadow_offset_small" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/tv_score_level"
+            android:layout_width="@dimen/score_tag_width"
+            android:layout_height="@dimen/score_tag_height"
+            android:layout_gravity="center"
+            android:text="@string/score_default"
+            android:textColor="?attr/colorTextoPersonalizado"
+            android:textSize="@dimen/text_score"
+            android:textStyle="bold"
+            android:clickable="true"
+            android:focusable="true"
+            android:backgroundTint="@color/score_yellow"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:paddingStart="@dimen/score_padding_horizontal"
+            android:paddingEnd="@dimen/score_padding_horizontal"
+            app:cornerRadius="@dimen/pill_radius"
+            app:strokeColor="@color/neo_black"
+            app:strokeWidth="@dimen/neo_stroke_width" />
+
+    </FrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_levels"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:paddingTop="@dimen/level_list_padding_top"
+        android:paddingBottom="@dimen/level_list_padding_bottom"
+        android:clipToPadding="false"
+        android:paddingStart="@dimen/level_list_padding_start"
+        android:paddingEnd="@dimen/level_list_padding_end"
+        app:layout_constraintTop_toBottomOf="@id/header"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/item_level_card" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

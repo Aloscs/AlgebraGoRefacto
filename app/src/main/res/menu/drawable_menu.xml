@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_language"
+        android:icon="@drawable/ic_language"
+        android:title="Idioma: Español/English" />
+
+    <item
+        android:id="@+id/nav_theme"
+        android:icon="@drawable/ic_theme"
+        android:title="Modo Oscuro" />
+
+</menu>

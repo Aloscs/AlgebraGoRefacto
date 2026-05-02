@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_balance"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/balance_container_height"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:clipChildren="false"
+        android:clipToPadding="false">
+
+        <View
+            android:layout_width="@dimen/balance_base_width"
+            android:layout_height="@dimen/balance_base_height"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="@dimen/padding_xsmall"
+            android:layout_marginStart="@dimen/shadow_margin"
+            android:background="@drawable/bg_neo_pill"
+            android:backgroundTint="@color/neo_black" />
+
+        <View
+            android:layout_width="@dimen/balance_base_width"
+            android:layout_height="@dimen/balance_base_height"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="@dimen/margin_score_edge"
+            android:background="@drawable/bg_neo_pill"
+            android:backgroundTint="@color/neo_yellow" />
+
+        <View
+            android:layout_width="@dimen/balance_support_width"
+            android:layout_height="@dimen/balance_support_height"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:layout_marginStart="@dimen/shadow_margin"
+            android:background="@drawable/bg_neo_pill"
+            android:backgroundTint="@color/neo_black" />
+
+        <View
+            android:layout_width="@dimen/balance_support_width"
+            android:layout_height="@dimen/balance_support_height"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="@dimen/blocks_title_margin_top"
+            android:background="@drawable/bg_neo_pill"
+            android:backgroundTint="@color/neo_blue" />
+
+        <LinearLayout
+            android:id="@+id/balance_arm_assembly"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_gravity="top"
+            android:paddingTop="@dimen/margin_medium"
+            android:clipChildren="false"
+            android:clipToPadding="false">
+
+            <LinearLayout
+                android:id="@+id/drop_zone_left"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/balance_drop_zone_height"
+                android:layout_weight="1"
+                android:background="@drawable/bg_drop_zone"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_marginEnd="@dimen/balance_pan_overlap">
+
+                <TextView
+                    android:id="@+id/tv_left_pan_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_equation"
+                    android:textColor="?attr/colorTextoPersonalizado"
+                    android:fontFamily="monospace"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/drop_here"
+                    android:textSize="@dimen/text_xsmall"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:textColor="@color/text_gray" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="@dimen/balance_center_arm_width"
+                android:layout_height="@dimen/margin_small"
+                android:background="@color/neo_black" />
+
+            <LinearLayout
+                android:id="@+id/drop_zone_right"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/balance_drop_zone_height"
+                android:layout_weight="1"
+                android:background="@drawable/bg_drop_zone"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_marginStart="@dimen/balance_pan_overlap">
+
+                <TextView
+                    android:id="@+id/tv_right_pan_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_equation"
+                    android:textColor="@color/neo_black"
+                    android:fontFamily="monospace"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/drop_here"
+                    android:textSize="@dimen/text_xsmall"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:textColor="@color/text_gray" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/margin_medium"
+        android:paddingTop="@dimen/margin_medium"
+        android:paddingBottom="@dimen/margin_small"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/layout_balance_options"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical" />
+
+    </HorizontalScrollView>
+
+</LinearLayout>

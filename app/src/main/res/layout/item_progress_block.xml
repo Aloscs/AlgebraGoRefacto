@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="@dimen/margin_medium"
+    android:layout_marginBottom="@dimen/margin_small"
+    android:background="?attr/colorFondoPersonalizado">
+
+    <!-- CÍRCULO -->
+    <com.androide.algebrago.views.LiquidProgressView
+        android:id="@+id/liquid_progress"
+        android:layout_width="@dimen/progress_circle_size"
+        android:layout_height="@dimen/progress_circle_size" />
+
+    <!-- TEXTO -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/margin_medium"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tv_progress_block_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/progress_block_default"
+            android:textSize="@dimen/text_body_large"
+            android:textStyle="bold"
+            android:textColor="?attr/colorTextoPersonalizado"/>
+
+        <TextView
+            android:id="@+id/tv_progress_percent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/progress_percent_default"
+            android:textSize="@dimen/text_score"
+            android:textColor="@color/gray_medium"/>
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="?attr/colorFondoPersonalizado">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:elevation="0dp"
+        android:background="@android:color/transparent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar_exercise"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorFondoPersonalizado"
+            app:contentInsetStart="@dimen/margin_medium"
+            app:contentInsetEnd="@dimen/margin_small"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:navigationIconTint="@color/neo_black">
+
+            <TextView
+                android:id="@+id/tv_exercise_counter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/exercise_counter_default"
+                android:textColor="?attr/colorTextoPersonalizado"
+                android:textSize="@dimen/text_toolbar"
+                android:textStyle="bold" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <FrameLayout
+                android:id="@+id/score_block_container"
+                android:layout_width="@dimen/score_small_container_width"
+                android:layout_height="@dimen/score_small_container_height"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_gravity="end"
+                android:clipChildren="false"
+                android:clipToPadding="false">
+
+                <View
+                    android:layout_width="@dimen/score_small_tag_width"
+                    android:layout_height="@dimen/score_small_tag_height"
+                    android:layout_gravity="center"
+                    android:background="@drawable/bg_neobrutal_tag_shadow"
+                    android:translationX="@dimen/shadow_offset_xsmall"
+                    android:translationY="@dimen/shadow_offset_xsmall" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/tv_score_exercise"
+                    android:layout_width="@dimen/score_small_tag_width"
+                    android:layout_height="@dimen/score_small_tag_height"
+                    android:layout_gravity="center"
+                    android:text="@string/score_default"
+                    android:textColor="?attr/colorTextoPersonalizado"
+                    android:textSize="@dimen/text_score_small"
+                    android:textStyle="bold"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:backgroundTint="@color/score_yellow"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:paddingStart="@dimen/score_small_padding_horizontal"
+                    android:paddingEnd="@dimen/score_small_padding_horizontal"
+                    app:cornerRadius="@dimen/pill_radius"
+                    app:strokeColor="@color/neo_black"
+                    app:strokeWidth="@dimen/neo_stroke_width" />
+
+            </FrameLayout>
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:clipChildren="false"
+        android:clipToPadding="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/margin_large"
+            android:background="?attr/colorFondoPersonalizado"
+            android:clipChildren="false"
+            android:clipToPadding="false">
+
+            <TextView
+                android:id="@+id/tv_exercise_instruction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/margin_large"
+                android:paddingTop="@dimen/margin_medium"
+                android:paddingBottom="@dimen/margin_medium"
+                android:text="@string/exercise_instruction_default"
+                android:textSize="@dimen/text_toolbar"
+                android:textColor="@color/text_gray" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="@dimen/margin_large"
+                android:paddingBottom="@dimen/margin_large"
+                android:clipChildren="false"
+                android:clipToPadding="false">
+
+                <FrameLayout
+                    android:layout_width="@dimen/equation_container_width"
+                    android:layout_height="@dimen/equation_container_height"
+                    android:clipChildren="false"
+                    android:clipToPadding="false">
+
+                    <View
+                        android:layout_width="@dimen/equation_card_width"
+                        android:layout_height="@dimen/equation_card_height"
+                        android:layout_gravity="top|start"
+                        android:background="@drawable/bg_shadow_button"
+                        android:backgroundTint="@color/neo_black"
+                        android:translationX="@dimen/margin_small"
+                        android:translationY="@dimen/margin_small" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="@dimen/equation_card_width"
+                        android:layout_height="@dimen/equation_card_height"
+                        android:layout_gravity="top|start"
+                        app:cardBackgroundColor="@color/neo_white"
+                        app:cardCornerRadius="@dimen/equation_card_radius"
+                        app:cardElevation="0dp"
+                        app:strokeColor="@color/neo_black"
+                        app:strokeWidth="@dimen/neo_stroke_width">
+
+                        <TextView
+                            android:id="@+id/tv_equation"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:fontFamily="monospace"
+                            android:gravity="center"
+                            android:text="@string/equation_default"
+                            android:textColor="@color/neo_black"
+                            android:textSize="@dimen/text_equation"
+                            android:textStyle="bold" />
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:clipChildren="false"
+                    android:clipToPadding="false">
+
+                    <View
+                        android:layout_width="@dimen/hint_button_size"
+                        android:layout_height="@dimen/hint_button_size"
+                        android:background="@drawable/bg_shadow_icon"
+                        android:translationX="@dimen/shadow_offset_small"
+                        android:translationY="@dimen/shadow_offset_small" />
+
+                    <ImageButton
+                        android:id="@+id/btn_hint"
+                        android:layout_width="@dimen/hint_button_size"
+                        android:layout_height="@dimen/hint_button_size"
+                        android:background="@drawable/bg_neobrutal_icon"
+                        android:backgroundTint="@color/neo_blue"
+                        android:src="@drawable/ic_lightbulb"
+                        app:tint="@color/neo_black"
+                        android:padding="@dimen/hint_icon_padding"
+                        android:scaleType="fitCenter"
+                        android:contentDescription="@string/btn_hint" />
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/exercise_content_container"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:paddingHorizontal="@dimen/margin_medium"
+                android:clipChildren="false"
+                android:clipToPadding="false" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/margin_large"
+        android:background="@android:color/transparent"
+        android:clipChildren="false"
+        android:clipToPadding="false">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/exercise_action_button_height"
+                android:background="@drawable/bg_shadow_button"
+                android:translationX="@dimen/shadow_offset_small"
+                android:translationY="@dimen/shadow_offset_medium" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_submit"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/exercise_action_button_height"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="@string/btn_verify"
+                android:textColor="?attr/colorTextoPersonalizado"
+                android:textSize="@dimen/text_toolbar"
+                android:textStyle="bold"
+                app:backgroundTint="@color/neo_green"
+                app:cornerRadius="@dimen/neo_button_radius"
+                app:strokeColor="@color/neo_black"
+                app:strokeWidth="@dimen/neo_stroke_width" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_next_exercise"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/exercise_action_button_height"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="@string/btn_next"
+                android:textSize="@dimen/text_toolbar"
+                android:textStyle="bold"
+                android:textColor="?attr/colorTextoPersonalizado"
+                app:backgroundTint="@color/neo_pink"
+                app:strokeColor="@color/neo_black"
+                app:strokeWidth="@dimen/neo_stroke_width"
+                app:cornerRadius="@dimen/neo_button_radius"
+                android:visibility="gone" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

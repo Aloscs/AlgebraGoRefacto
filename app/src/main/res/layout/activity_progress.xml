@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorFondoPersonalizado">
+
+    <!-- HEADER -->
+    <LinearLayout
+        android:id="@+id/header_progress"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/progress_header_height"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingTop="@dimen/progress_header_padding_top"
+        android:background="?attr/colorTarjetaBloque"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/progress_title_main"
+            android:textColor="?attr/colorTextoPersonalizado"
+            android:textSize="@dimen/text_progress_title"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/progress_subtitle"
+            android:textColor="@color/gray_medium"
+            android:textSize="@dimen/text_score"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/margin_xsmall"/>
+    </LinearLayout>
+
+    <!-- BACK -->
+    <FrameLayout
+        android:id="@+id/back_progress_container"
+        android:layout_width="@dimen/neo_icon_container_size"
+        android:layout_height="@dimen/neo_icon_container_size"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_small"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <View
+            android:layout_width="@dimen/icon_size_large"
+            android:layout_height="@dimen/icon_size_large"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_shadow_icon"
+            android:translationX="@dimen/shadow_offset_small"
+            android:translationY="@dimen/shadow_offset_small"/>
+
+        <ImageButton
+            android:id="@+id/btn_back_progress"
+            android:layout_width="@dimen/icon_size_large"
+            android:layout_height="@dimen/icon_size_large"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_neobrutal_icon"
+            android:src="@drawable/ic_arrow_back"
+            android:padding="@dimen/icon_padding_medium"
+            android:contentDescription="@string/btn_back"
+            app:tint="@color/neo_black"/>
+    </FrameLayout>
+
+    <!-- SCORE -->
+    <FrameLayout
+        android:id="@+id/score_progress_container"
+        android:layout_width="@dimen/score_container_width"
+        android:layout_height="@dimen/score_container_height"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <View
+            android:layout_width="@dimen/score_tag_width"
+            android:layout_height="@dimen/score_tag_height"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_neobrutal_tag_shadow"
+            android:translationX="@dimen/shadow_offset_small"
+            android:translationY="@dimen/shadow_offset_small"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/tv_score_progress"
+            android:layout_width="@dimen/score_tag_width"
+            android:layout_height="@dimen/score_tag_height"
+            android:layout_gravity="center"
+            android:text="@string/score_default"
+            android:textColor="?attr/colorTextoPersonalizado"
+            android:textSize="@dimen/text_score"
+            android:textStyle="bold"
+            android:clickable="true"
+            android:focusable="true"
+            android:backgroundTint="@color/score_yellow"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:paddingStart="@dimen/score_padding_horizontal"
+            android:paddingEnd="@dimen/score_padding_horizontal"
+            app:cornerRadius="@dimen/pill_radius"
+            app:strokeColor="@color/neo_black"
+            app:strokeWidth="@dimen/neo_stroke_width"/>
+    </FrameLayout>
+
+    <!-- CONTENIDO -->
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/header_progress"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:id="@+id/ll_progress_blocks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/margin_medium">
+
+            <!-- PREVIEW -->
+            <include
+                layout="@layout/item_progress_block"
+                android:visibility="gone"
+                tools:visibility="visible"/>
+
+            <include
+                layout="@layout/item_progress_block"
+                android:visibility="gone"
+                tools:visibility="visible"/>
+
+            <include
+                layout="@layout/item_progress_block"
+                android:visibility="gone"
+                tools:visibility="visible"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

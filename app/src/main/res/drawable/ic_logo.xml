@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Background circle -->
+    <path android:fillColor="#000000"
+        android:pathData="M54,54m-50,0a50,50 0,1 1,100 0a50,50 0,1 1,-100 0"/>
+    <!-- "A" letter simplified -->
+    <path android:fillColor="#FFFFFF"
+        android:pathData="M54,18 L34,72 L42,72 L48,56 L60,56 L66,72 L74,72 Z M54,30 L58,50 L50,50 Z"/>
+    <!-- "Go" arc hint -->
+    <path android:strokeColor="#FFFFFF" android:strokeWidth="3"
+        android:fillColor="@android:color/transparent"
+        android:pathData="M38,80 Q54,90 70,80"/>
+</vector>

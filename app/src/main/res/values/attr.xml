@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="colorFondoPersonalizado" format="color" />
+    <attr name="colorTextoPersonalizado" format="color" />
+    <attr name="colorTarjetaBloque" format="color" />
+    <attr name="colorPuntaje" format="color" />
+</resources>

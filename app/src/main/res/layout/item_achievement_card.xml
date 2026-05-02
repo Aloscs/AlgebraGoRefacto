@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/achievement_card_height"
+    android:layout_marginBottom="@dimen/margin_medium"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+    <!-- SOMBRA -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/achievement_inner_height"
+        android:layout_marginStart="@dimen/shadow_margin_small"
+        android:layout_marginTop="@dimen/shadow_margin_medium"
+        android:background="@drawable/bg_achievement_window_shadow"/>
+
+    <!-- CARD -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/achievement_inner_height"
+        android:orientation="vertical"
+        android:background="@drawable/bg_achievement_window">
+
+        <!-- TITLE BAR -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/achievement_title_bar_height"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/bg_achievement_title_bar"
+            android:paddingStart="@dimen/margin_small"
+            android:paddingEnd="@dimen/margin_small">
+
+            <TextView
+                android:id="@+id/tv_achievement_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/achievement_default_name"
+                android:textColor="?attr/colorTextoPersonalizado"
+                android:textSize="@dimen/text_small"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="@dimen/achievement_close_size"
+                android:layout_height="@dimen/achievement_close_size"
+                android:text="@string/achievement_close_symbol"
+                android:textColor="?attr/colorTextoPersonalizado"
+                android:textSize="@dimen/text_medium"
+                android:textStyle="bold"
+                android:gravity="center"/>
+        </LinearLayout>
+
+        <!-- CONTENT -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="@dimen/margin_medium">
+
+            <TextView
+                android:id="@+id/tv_achievement_icon"
+                android:layout_width="@dimen/achievement_icon_box_size"
+                android:layout_height="@dimen/achievement_icon_box_size"
+                android:text="@string/achievement_icon_default"
+                android:textSize="@dimen/text_icon"
+                android:gravity="center"
+                android:background="@drawable/bg_achievement_icon_box"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="@dimen/margin_small">
+
+                <TextView
+                    android:id="@+id/tv_achievement_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/achievement_default_desc"
+                    android:textColor="?attr/colorTextoPersonalizado"
+                    android:textSize="@dimen/text_small"
+                    android:maxLines="2"
+                    android:ellipsize="end"/>
+
+                <TextView
+                    android:id="@+id/tv_achievement_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/achievement_status_unlocked"
+                    android:textColor="?attr/colorTextoPersonalizado"
+                    android:textSize="@dimen/text_xsmall"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/margin_xsmall"
+                    android:background="@drawable/bg_achievement_status"
+                    android:paddingStart="@dimen/margin_small"
+                    android:paddingEnd="@dimen/margin_small"
+                    android:paddingTop="@dimen/padding_xsmall"
+                    android:paddingBottom="@dimen/padding_xsmall"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

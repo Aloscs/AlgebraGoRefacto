@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme: Black & White, Material Design -->
+    <style name="Theme.AlgebraGo" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorFondoPersonalizado">@color/bg_cream</item>
+        <item name="colorTextoPersonalizado">@color/text_black</item>
+        <item name="colorTarjetaBloque">@color/card_blue</item>
+        <item name="colorPuntaje">@color/score_yellow</item>
+
+        <item name="android:windowBackground">?attr/colorFondoPersonalizado</item>
+        <item name="android:statusBarColor">@color/neo_black</item>
+    </style>
+
+    <!--logo de la app -->
+    <style name="ShapeAppearance.AlgebraGo.Circle"
+        parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+    <style name="ShapeAppearance.AlgebraGo"
+        parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">24dp</item>
+    </style>
+
+    <!-- Score bar top -->
+    <style name="ScoreBar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:background">@color/black</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+    </style>
+
+    <!-- Primary filled button -->
+    <style name="Widget.AlgebraGo.Button" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/black</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:letterSpacing">0.05</item>
+        <item name="cornerRadius">4dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+    </style>
+
+    <!-- Outlined button -->
+    <style name="Widget.AlgebraGo.Button.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor">@color/black</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="cornerRadius">4dp</item>
+    </style>
+
+    <!-- Option card button (drag items) -->
+    <style name="Widget.AlgebraGo.OptionCard">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:minWidth">64dp</item>
+        <item name="android:background">@drawable/bg_option_card</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">8dp</item>
+    </style>
+
+    <!-- Equation text -->
+    <style name="Widget.AlgebraGo.Equation">
+        <item name="android:textSize">26sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <!-- Title text -->
+    <style name="Widget.AlgebraGo.Title">
+        <item name="android:textSize">28sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:letterSpacing">0.02</item>
+    </style>
+
+    <!-- Body text -->
+    <style name="Widget.AlgebraGo.Body">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/gray_dark</item>
+        <item name="android:lineSpacingExtra">4dp</item>
+    </style>
+
+    <!-- Hint dialog -->
+    <style name="Dialog.AlgebraGo" parent="Theme.MaterialComponents.Light.Dialog">
+        <item name="colorPrimary">@color/black</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="android:windowMinWidthMajor">80%</item>
+    </style>
+
+    <!-- Score text in top bar -->
+    <style name="Widget.AlgebraGo.ScoreText">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Level card in list -->
+    <style name="Widget.AlgebraGo.LevelCard">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">64dp</item>
+        <item name="android:background">@drawable/bg_level_card</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
+    </style>
+
+    <!-- Achievement card -->
+    <style name="Widget.AlgebraGo.AchievementCard">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/bg_achievement_card</item>
+        <item name="android:padding">16dp</item>
+    </style>
+
+    <style name="Widget.AlgebraGo" parent="Widget.MaterialComponents.Button">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#111111</item>
+        <item name="backgroundTint">#B79CFF</item>
+        <item name="cornerRadius">16dp</item>
+        <item name="strokeColor">#111111</item>
+        <item name="strokeWidth">3dp</item>
+    </style>
+
+</resources>

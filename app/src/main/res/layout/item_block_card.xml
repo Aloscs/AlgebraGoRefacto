@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/block_item_container_width"
+    android:layout_height="@dimen/block_item_container_height"
+    android:layout_marginStart="@dimen/block_item_margin_horizontal"
+    android:layout_marginEnd="@dimen/block_item_margin_horizontal"
+    android:layout_marginTop="@dimen/margin_small"
+    android:layout_marginBottom="@dimen/margin_small"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+    <View
+        android:layout_width="@dimen/block_item_card_width"
+        android:layout_height="@dimen/block_item_card_height"
+        android:layout_marginStart="@dimen/block_item_shadow_margin"
+        android:layout_marginTop="@dimen/block_item_shadow_margin"
+        android:background="@drawable/bg_shadow_block" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_block"
+        android:layout_width="@dimen/block_item_card_width"
+        android:layout_height="@dimen/block_item_card_height"
+        app:cardBackgroundColor="@color/neo_white"
+        app:cardCornerRadius="@dimen/block_item_card_radius"
+        app:cardElevation="0dp"
+        app:strokeColor="@color/neo_black"
+        app:strokeWidth="@dimen/block_item_stroke_width">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/block_item_padding">
+
+            <TextView
+                android:id="@+id/tv_block_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/block_number_default"
+                android:textColor="@color/block_number_orange"
+                android:textSize="@dimen/text_level_title"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_block_icon"
+                android:layout_width="@dimen/block_icon_big_size"
+                android:layout_height="@dimen/block_icon_big_size"
+                android:text="@string/block_icon_default"
+                android:textColor="@color/neo_black"
+                android:textSize="@dimen/text_block_icon"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:background="@drawable/bg_neobrutal_icon_big"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_block_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/level_block_name_default"
+                android:textColor="?attr/colorTextoPersonalizado"
+                android:textSize="@dimen/text_block_title"
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/margin_large"
+                app:layout_constraintTop_toBottomOf="@id/tv_block_icon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_block_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/block_description_default"
+                android:textColor="@color/block_description_gray"
+                android:textSize="@dimen/text_score"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:layout_marginTop="@dimen/margin_small"
+                app:layout_constraintTop_toBottomOf="@id/tv_block_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_open_block"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/block_button_height"
+                android:text="@string/btn_enter"
+                android:textAllCaps="false"
+                android:textColor="?attr/colorTextoPersonalizado"
+                android:textSize="@dimen/text_body_medium"
+                android:textStyle="bold"
+                android:backgroundTint="@color/feedback_finish_purple"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                app:cornerRadius="@dimen/neo_button_radius"
+                app:strokeColor="@color/neo_black"
+                app:strokeWidth="@dimen/neo_stroke_width"
+                android:layout_marginBottom="@dimen/margin_score_edge"
+                app:layout_constraintBottom_toTopOf="@id/loading_progress_container"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/loading_progress_container"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/block_loading_height"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/shadow_margin_small"
+                android:paddingEnd="@dimen/shadow_margin_small"
+                android:paddingTop="@dimen/padding_xsmall"
+                android:paddingBottom="@dimen/padding_xsmall"
+                android:background="@drawable/bg_loading_bar_outline"
+                android:layout_marginBottom="@dimen/level_score_margin_top"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <View
+                    android:id="@+id/progress_seg_1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="@dimen/padding_xsmall"
+                    android:background="@drawable/bg_loading_segment_empty" />
+
+                <View
+                    android:id="@+id/progress_seg_2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="@dimen/padding_xsmall"
+                    android:background="@drawable/bg_loading_segment_empty" />
+
+                <View
+                    android:id="@+id/progress_seg_3"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="@dimen/padding_xsmall"
+                    android:background="@drawable/bg_loading_segment_empty" />
+
+                <View
+                    android:id="@+id/progress_seg_4"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="@dimen/padding_xsmall"
+                    android:background="@drawable/bg_loading_segment_empty" />
+
+                <View
+                    android:id="@+id/progress_seg_5"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="@dimen/padding_xsmall"
+                    android:background="@drawable/bg_loading_segment_empty" />
+
+                <View
+                    android:id="@+id/progress_seg_6"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_loading_segment_empty" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</FrameLayout>
