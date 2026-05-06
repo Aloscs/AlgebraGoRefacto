@@ -18,8 +18,11 @@ public class Exercise implements Cloneable {
     private int id;
     private String equationDisplay;       // e.g. "?+5?=11"  or "?+5?=11"
     private String equationFull;          // e.g. "x+5y=11"
-    private String leftSide;              // For balance: "__+5__"
-    private String rightSide;            // For balance: "11"
+    //private String leftSide;              // For balance: "__+5__"
+    //private String rightSide;            // For balance: "11"
+
+    private List<Term> leftSideTerms;
+    private List<Term> rightSideTerms;
     private List<String> options;         // Selectable options
     private List<String> correctValues;   // Correct values to fill blanks
     private String hint;                  // Text hint (not the answer)
@@ -32,19 +35,23 @@ public class Exercise implements Cloneable {
     public Exercise() {
         options = new ArrayList<>();
         correctValues = new ArrayList<>();
+        leftSideTerms = new ArrayList<>();
+        rightSideTerms = new ArrayList<>();
     }
 
     // Full constructor
     public Exercise(int id, String equationDisplay, String equationFull,
-                    String leftSide, String rightSide,
+                    List<Term> leftSideTerms, List<Term> rightSideTerms,
                     List<String> options, List<String> correctValues,
                     String hint, String explanation,
                     ExerciseType type, int pointValue, int levelId, int blockId) {
         this.id = id;
         this.equationDisplay = equationDisplay;
         this.equationFull = equationFull;
-        this.leftSide = leftSide;
-        this.rightSide = rightSide;
+       // this.leftSide = leftSide;
+        //this.rightSide = rightSide;
+        this.leftSideTerms = leftSideTerms != null ? leftSideTerms : new ArrayList<>();
+        this.rightSideTerms = rightSideTerms != null ? rightSideTerms : new ArrayList<>();
         this.options = options != null ? options : new ArrayList<>();
         this.correctValues = correctValues != null ? correctValues : new ArrayList<>();
         this.hint = hint;
@@ -72,17 +79,16 @@ public class Exercise implements Cloneable {
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
+    public List<Term> getLeftSideTerms() { return leftSideTerms; }
+    public void setLeftSideTerms(List<Term> leftSideTerms) { this.leftSideTerms = leftSideTerms; }
+
+    public List<Term> getRightSideTerms() { return rightSideTerms; }
+    public void setRightSideTerms(List<Term> rightSideTerms) { this.rightSideTerms = rightSideTerms; }
     public String getEquationDisplay() { return equationDisplay; }
     public void setEquationDisplay(String equationDisplay) { this.equationDisplay = equationDisplay; }
 
     public String getEquationFull() { return equationFull; }
     public void setEquationFull(String equationFull) { this.equationFull = equationFull; }
-
-    public String getLeftSide() { return leftSide; }
-    public void setLeftSide(String leftSide) { this.leftSide = leftSide; }
-
-    public String getRightSide() { return rightSide; }
-    public void setRightSide(String rightSide) { this.rightSide = rightSide; }
 
     public List<String> getOptions() { return options; }
     public void setOptions(List<String> options) { this.options = options; }

@@ -86,4 +86,21 @@ public class FeedbackViewModel extends AndroidViewModel {
     public int getBlockId() { return blockId; }
     public int getLevelId() { return levelId; }
     public int getNextRetryCount() { return currentRetryCount + 1; }
+
+
+    /**
+     * PREVENCIÓN DE FUGAS DE MEMORIA:
+     * Este método se ejecuta automáticamente cuando el usuario cierra la pantalla de ejercicios.
+     * Aquí liberamos cualquier recurso, limpiamos listas y detenemos procesos.
+     */
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        // Limpiar referencias a listas pesadas
+        if (feedbackItems.getValue() != null) {
+            feedbackItems.getValue().clear();
+        }
+        // Restablecer los LiveData para que no mantengan estados viejos si se vuelve a abrir
+        canRetry.setValue(false);
+    }
 }

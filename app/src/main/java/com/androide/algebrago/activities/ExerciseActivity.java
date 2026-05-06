@@ -212,26 +212,6 @@ public class ExerciseActivity extends AppCompatActivity {
 
     }
 
-    /** La verificación de respuesta sigue siendo local (lógica de presentación). */
-   /* private boolean checkAnswerLocally(Exercise ex) {
-        if (ex.getType() == Exercise.ExerciseType.COMPLETE_EQUATION) {
-            if (rgOptions == null) return false;
-            int selectedId = rgOptions.getCheckedRadioButtonId();
-            if (selectedId == -1) return false;
-            RadioButton rb = rgOptions.findViewById(selectedId);
-            if (rb == null) return false;
-            return ex.getCorrectValues().contains(rb.getText().toString().trim());
-        } else {
-            List<String> placed = new ArrayList<>();
-            if (leftSlots != null)  for (String s : leftSlots)  if (s != null) placed.add(s);
-            if (rightSlots != null) for (String s : rightSlots) if (s != null) placed.add(s);
-            List<String> correct = ex.getCorrectValues();
-            if (placed.size() != correct.size()) return false;
-            for (String c : correct) if (!placed.contains(c)) return false;
-            return true;
-        }
-    }*/
-
     // ── Pista ─────────────────────────────────────────────────────────────────
 
     private void showHintDialog() {
@@ -281,11 +261,16 @@ public class ExerciseActivity extends AppCompatActivity {
 
         tvInstruction.setText(getString(R.string.exercise_instruction_balance));
         tvEquation.setText(ex.getEquationFull());
-        tvLeftPan.setText(ex.getLeftSide() != null ? ex.getLeftSide() : "___");
-        tvRightPan.setText(ex.getRightSide() != null ? ex.getRightSide() : "___");
 
-        leftSlots  = new String[countBlanks(ex.getLeftSide())];
-        rightSlots = new String[countBlanks(ex.getRightSide())];
+
+        String leftStr = viewModel.termsToString(ex.getLeftSideTerms());
+        String rightStr = viewModel.termsToString(ex.getRightSideTerms());
+
+        tvLeftPan.setText(leftStr != null ? leftStr : "___");
+        tvRightPan.setText(rightStr != null ? rightStr : "___");
+
+        leftSlots  = new String[countBlanks(leftStr)];
+        rightSlots = new String[countBlanks(rightStr)];
 
         if (balanceArmAssembly != null) balanceArmAssembly.setRotation(-10f);
         buildDragOptions(ex);
@@ -367,8 +352,11 @@ public class ExerciseActivity extends AppCompatActivity {
     }
 
     private void updateBalanceDisplay(Exercise ex) {
-        tvLeftPan.setText(fillBlanks(ex.getLeftSide(), leftSlots));
-        tvRightPan.setText(fillBlanks(ex.getRightSide(), rightSlots));
+        String leftStr = viewModel.termsToString(ex.getLeftSideTerms());
+        String rightStr = viewModel.termsToString(ex.getRightSideTerms());
+
+        tvLeftPan.setText(fillBlanks(leftStr, leftSlots));
+        tvRightPan.setText(fillBlanks(rightStr, rightSlots));
     }
 
     private String fillBlanks(String template, String[] slots) {

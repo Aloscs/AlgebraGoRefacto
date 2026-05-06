@@ -11,7 +11,9 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.androide.algebrago.database.converter.StringListConverter;
 import com.androide.algebrago.database.dao.EquationDao;
+import com.androide.algebrago.database.dao.HistoryDao;
 import com.androide.algebrago.database.entity.EquationEntity;
+import com.androide.algebrago.database.entity.EquationHistoryEntity;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -31,8 +33,8 @@ import java.util.concurrent.Executors;
  * evitando bloquear el hilo principal (requerimiento de Room).
  */
 @Database(
-    entities = {EquationEntity.class},
-    version = 1,
+    entities = {EquationEntity.class, EquationHistoryEntity.class},
+    version = 2,
     exportSchema = false
 )
 @TypeConverters({StringListConverter.class})
@@ -49,6 +51,7 @@ public abstract class AppDatabase extends RoomDatabase {
     // ── DAO públicos ──────────────────────────────────────────────────────────
 
     public abstract EquationDao equationDao();
+    public abstract HistoryDao historyDao();
 
     // ── Singleton ─────────────────────────────────────────────────────────────
 

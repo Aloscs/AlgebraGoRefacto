@@ -154,6 +154,7 @@ public class MainViewModel extends AndroidViewModel {
         super.onCleared();
         // El ScoreManager es Singleton; limpiar observers evita leaks
         // En una refactorización futura se puede guardar la referencia y removeObserver()
+        score.setValue(0);
     }
 
     // ── LiveData getters ──────────────────────────────────────────────────────

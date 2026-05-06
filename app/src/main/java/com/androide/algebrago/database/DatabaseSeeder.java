@@ -55,13 +55,13 @@ public final class DatabaseSeeder {
      * Convierte una lista de Exercise del dominio a EquationEntity para Room.
      */
     private static void convertAndAdd(List<EquationEntity> target,
-                                       List<Exercise> exercises) {
+                                      List<Exercise> exercises) {
         for (Exercise ex : exercises) {
             EquationEntity entity = new EquationEntity(
                     nullSafe(ex.getEquationFull()),
                     ex.getEquationDisplay(),
-                    ex.getLeftSide(),
-                    ex.getRightSide(),
+                    termsToString(ex.getLeftSideTerms()),   // 🟢 CORRECCIÓN
+                    termsToString(ex.getRightSideTerms()),  // 🟢 CORRECCIÓN
                     StringListConverter.fromList(ex.getOptions()),
                     StringListConverter.fromList(ex.getCorrectValues()),
                     ex.getHint(),
@@ -90,5 +90,23 @@ public final class DatabaseSeeder {
 
     private static String nullSafe(String s) {
         return s != null ? s : "";
+    }
+
+    /**
+     * Aplasta la estructura matemática (List<Term>) a un String ("?+5")
+     * para poder guardarla en SQLite.
+     */
+    private static String termsToString(List<com.androide.algebrago.models.Term> terms) {
+        if (terms == null || terms.isEmpty()) return "";
+
+        StringBuilder sb = new StringBuilder();
+        for (com.androide.algebrago.models.Term t : terms) {
+            if (t.getType() == com.androide.algebrago.models.Term.TermType.BLANK) {
+                sb.append("?");
+            } else {
+                sb.append(t.getValue());
+            }
+        }
+        return sb.toString();
     }
 }

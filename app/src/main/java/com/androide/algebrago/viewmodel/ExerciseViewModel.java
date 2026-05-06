@@ -1,5 +1,7 @@
 package com.androide.algebrago.viewmodel;
 
+import static com.androide.algebrago.patterns.factory.ExerciseFactory.stringToTerms;
+
 import android.app.Application;
 
 import androidx.annotation.NonNull;
@@ -8,12 +10,18 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.androide.algebrago.models.Exercise;
+import com.androide.algebrago.models.Term;
 import com.androide.algebrago.patterns.facade.AppFacade;
 import com.androide.algebrago.patterns.state.SessionStateManager;
 import com.androide.algebrago.repository.EquationRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.androide.algebrago.utils.ASTNode;
+import com.androide.algebrago.utils.EquationParser;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * ViewModel para ExerciseActivity.
@@ -151,6 +159,24 @@ public class ExerciseViewModel extends AndroidViewModel {
 
         Exercise ex = list.get(currentIndex);
 
+        //creamos la estructura y guardamos en el historial y usamos el traductor que
+        //hicimos para que la lista de Terms pase a un String
+        String leftSerial = termsToString(ex.getLeftSideTerms());
+        String rightSerial = termsToString(ex.getRightSideTerms());
+        String serializedEquation = leftSerial + "=" + rightSerial;
+
+        com.androide.algebrago.database.entity.EquationHistoryEntity historyRecord =
+                new com.androide.algebrago.database.entity.EquationHistoryEntity(
+                        blockId,
+                        levelId,
+                        serializedEquation,
+                        isCorrect,
+                        System.currentTimeMillis() // Marca de tiempo (Timestamp)
+                );
+
+        repository.insertHistory(historyRecord); // Lo mandamos a guardar a SQLite
+
+
         if (isCorrect) {
             answerResult.setValue(AnswerResult.CORRECT);
             facade.submitCorrectAnswer(ex.getPointValue(), firstAttempt);
@@ -208,25 +234,45 @@ public class ExerciseViewModel extends AndroidViewModel {
     }
 
     public void submitAnswerList(List<String> placedTokens) {
-        List<Exercise> list = exercises.getValue();
-        if (list == null || currentIndex >= list.size()) return;
+        // Obtenemos los términos crudos que puso el usuario
+        List<Term> userTerms = stringsToTermsLocal(placedTokens);
 
-        Exercise ex = list.get(currentIndex);
-        List<String> correct = ex.getCorrectValues();
+        Exercise ex = exercises.getValue().get(currentIndex);
+
+        // 1. Armar los árboles matemáticos (Jerarquía)
+        ASTNode userTree = EquationParser.parse(userTerms);
+        List<Term> correctTerms = stringsToTermsLocal(ex.getCorrectValues());
+        ASTNode correctTree = EquationParser.parse(correctTerms); // * Necesitas crear getCorrectTerms() igual que stringToTerms *
 
         boolean isCorrect = true;
-        if (placedTokens.size() != correct.size()) {
-            isCorrect = false;
-        } else {
-            for (String c : correct) {
-                if (!placedTokens.contains(c)) {
+        Map<String, Double> variables = new HashMap<>();
+
+        // 2. Auditoría Matemática: Probamos con dos valores distintos para 'x'
+        // Si x=2 y x=5 funcionan en ambos árboles, las ecuaciones son equivalentes.
+        double[] testValues = {2.0, 5.0};
+
+        for (double testVal : testValues) {
+            variables.put("x", testVal);
+            try {
+                double userResult = userTree.evaluate(variables);
+                double correctResult = correctTree.evaluate(variables);
+
+                // Si los resultados difieren (con un margen de error por decimales), está mal
+                if (Math.abs(userResult - correctResult) > 0.001) {
                     isCorrect = false;
                     break;
                 }
+            } catch (Exception e) {
+                isCorrect = false; // Error matemático (ej. ecuación mal formada por el usuario)
             }
         }
 
-        submitAnswer(isCorrect); // Llama a tu método original
+        submitAnswer(isCorrect);
+    }
+
+    private List<Term> stringsToTermsLocal(List<String> tokens) {
+        // Aquí puedes usar la misma lógica de stringToTerms que vimos antes, concatenando los tokens
+        return stringToTerms(String.join("", tokens));
     }
 
     public void evaluateBalanceRealTime(List<String> placedTokens) {
@@ -250,6 +296,26 @@ public class ExerciseViewModel extends AndroidViewModel {
 
         // Solo actualizamos el estado visual, NO llamamos a submitAnswer()
         isCurrentlyBalanced.setValue(isCorrect);
+    }
+
+    // ── Traductor de Términos a Texto (Para la UI) ──────────────────────────
+
+    /**
+     * Convierte una lista de Términos matemáticos en un String para la vista.
+     * Reemplaza los espacios vacíos con "?" para que la Activity pueda contarlos.
+     */
+    public String termsToString(List<com.androide.algebrago.models.Term> terms) {
+        if (terms == null || terms.isEmpty()) return null;
+
+        StringBuilder sb = new StringBuilder();
+        for (com.androide.algebrago.models.Term t : terms) {
+            if (t.getType() == com.androide.algebrago.models.Term.TermType.BLANK) {
+                sb.append("?"); // Mantiene la compatibilidad con tu UI actual
+            } else {
+                sb.append(t.getValue());
+            }
+        }
+        return sb.toString();
     }
 
     // ── Getters de LiveData ───────────────────────────────────────────────────
@@ -277,4 +343,22 @@ public class ExerciseViewModel extends AndroidViewModel {
     }
 
     public int getCurrentIndex() { return currentIndex; }
+
+    /**
+     * PREVENCIÓN DE FUGAS DE MEMORIA:
+     * Este método se ejecuta automáticamente cuando el usuario cierra la pantalla de ejercicios.
+     * Aquí liberamos cualquier recurso, limpiamos listas y detenemos procesos.
+     */
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        // Limpiar referencias a listas pesadas
+        if (exercises.getValue() != null) {
+            exercises.getValue().clear();
+        }
+        // Restablecer los LiveData para que no mantengan estados viejos si se vuelve a abrir
+        currentExercise.setValue(null);
+        answerResult.setValue(AnswerResult.NONE);
+        sessionComplete.setValue(false);
+    }
 }

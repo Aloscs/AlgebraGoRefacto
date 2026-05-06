@@ -5,6 +5,7 @@ import com.androide.algebrago.models.Exercise;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import com.androide.algebrago.models.Term;
 
 /**
  * PATTERN: Factory — creates Exercise objects for each level without
@@ -469,9 +470,10 @@ public class ExerciseFactory {
     // ── Helpers ───────────────────────────────────────────────────────────────
 
     private static Exercise makeComplete(int id, String display, String full,
-                                          List<String> options, List<String> correct,
-                                          String hint, String explanation,
-                                          int levelId, int blockId, int points) {
+                                         List<String> options, List<String> correct,
+                                         String hint, String explanation,
+                                         int levelId, int blockId, int points) {
+        // Pasamos null para las listas de términos, tu constructor ya sabe manejarlo
         Exercise e = new Exercise(id, display, full, null, null,
                 options, correct, hint, explanation,
                 Exercise.ExerciseType.COMPLETE_EQUATION, points, levelId, blockId);
@@ -479,12 +481,62 @@ public class ExerciseFactory {
     }
 
     private static Exercise makeBalance(int id, String left, String right, String full,
-                                         List<String> options, List<String> correct,
-                                         String hint, String explanation,
-                                         int levelId, int blockId, int points) {
-        Exercise e = new Exercise(id, null, full, left, right,
+                                        List<String> options, List<String> correct,
+                                        String hint, String explanation,
+                                        int levelId, int blockId, int points) {
+
+        // 🟢 Convertimos el texto a la nueva estructura matemática
+        List<Term> leftTerms = stringToTerms(left);
+        List<Term> rightTerms = stringToTerms(right);
+
+        Exercise e = new Exercise(id, null, full, leftTerms, rightTerms,
                 options, correct, hint, explanation,
                 Exercise.ExerciseType.BALANCE_SCALE, points, levelId, blockId);
         return e;
     }
+
+    /**
+     * Convierte los Strings crudos del Factory en una estructura matemática (List<Term>).
+     */
+    public static List<Term> stringToTerms(String side) {
+        List<Term> terms = new ArrayList<>();
+        if (side == null || side.isEmpty()) return terms;
+
+        StringBuilder buffer = new StringBuilder();
+        int termIdCounter = 0;
+
+        for (int i = 0; i < side.length(); i++) {
+            char c = side.charAt(i);
+
+            if (c == '?' || c == '_') {
+                flushBuffer(terms, buffer, termIdCounter++);
+                terms.add(new Term("t" + (termIdCounter++), Term.TermType.BLANK, "?"));
+            } else if (c == '+' || c == '-' || c == '*' || c == '/' || c == '=') {
+                flushBuffer(terms, buffer, termIdCounter++);
+                terms.add(new Term("t" + (termIdCounter++), Term.TermType.OPERATOR, String.valueOf(c)));
+            } else if (c == '(' || c == ')') {
+                flushBuffer(terms, buffer, termIdCounter++);
+                terms.add(new Term("t" + (termIdCounter++), Term.TermType.PARENTHESIS, String.valueOf(c)));
+            } else if (Character.isWhitespace(c)) {
+                flushBuffer(terms, buffer, termIdCounter++);
+            } else {
+                buffer.append(c);
+            }
+        }
+        flushBuffer(terms, buffer, termIdCounter);
+
+        return terms;
+    }
+
+    private static void flushBuffer(List<Term> terms, StringBuilder buffer, int idCounter) {
+        if (buffer.length() > 0) {
+            String val = buffer.toString();
+            Term.TermType type = val.matches(".*\\d.*") ?
+                    Term.TermType.CONSTANT : Term.TermType.VARIABLE;
+
+            terms.add(new Term("t" + idCounter, type, val));
+            buffer.setLength(0);
+        }
+    }
+
 }

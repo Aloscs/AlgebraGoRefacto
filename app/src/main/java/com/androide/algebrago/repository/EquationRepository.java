@@ -36,10 +36,12 @@ public class EquationRepository {
     private static EquationRepository instance;
 
     private final EquationDao equationDao;
+    private final com.androide.algebrago.database.dao.HistoryDao historyDao; // 🟢 NUEVA LÍNEA
 
     private EquationRepository(Context context) {
         AppDatabase db = AppDatabase.getInstance(context.getApplicationContext());
         equationDao = db.equationDao();
+        historyDao = db.historyDao();
     }
 
     public static synchronized EquationRepository getInstance(Context context) {
@@ -147,8 +149,8 @@ public class EquationRepository {
                     e.id,
                     e.equationDisplay,
                     e.equationFull,
-                    e.leftSide,
-                    e.rightSide,
+                    stringToTerms(e.leftSide),
+                    stringToTerms(e.rightSide),
                     StringListConverter.toList(e.optionsJson),
                     StringListConverter.toList(e.correctValuesJson),
                     e.hint,
@@ -163,6 +165,63 @@ public class EquationRepository {
         return result;
     }
 
+    //puente traductor
+    private List<com.androide.algebrago.models.Term> stringToTerms(String side) {
+        List<com.androide.algebrago.models.Term> terms = new ArrayList<>();
+        if (side == null || side.isEmpty()) return terms;
+
+        StringBuilder buffer = new StringBuilder();
+        int termIdCounter = 0;
+
+        for (int i = 0; i < side.length(); i++) {
+            char c = side.charAt(i);
+
+            // Si es un espacio en blanco para Drag & Drop
+            if (c == '?' || c == '_') {
+                flushBuffer(terms, buffer, termIdCounter++);
+                terms.add(new com.androide.algebrago.models.Term("t" + (termIdCounter++), com.androide.algebrago.models.Term.TermType.BLANK, "?"));
+            }
+            // Si es un operador
+            else if (c == '+' || c == '-' || c == '*' || c == '/' || c == '=') {
+                flushBuffer(terms, buffer, termIdCounter++);
+                terms.add(new com.androide.algebrago.models.Term("t" + (termIdCounter++), com.androide.algebrago.models.Term.TermType.OPERATOR, String.valueOf(c)));
+            }
+            // Si es un paréntesis
+            else if (c == '(' || c == ')') {
+                flushBuffer(terms, buffer, termIdCounter++);
+                terms.add(new com.androide.algebrago.models.Term("t" + (termIdCounter++), com.androide.algebrago.models.Term.TermType.PARENTHESIS, String.valueOf(c)));
+            }
+            // Ignorar espacios vacíos
+            else if (Character.isWhitespace(c)) {
+                flushBuffer(terms, buffer, termIdCounter++);
+            }
+            // Si es un número o letra, lo acumulamos en el buffer (ej. para leer "11" o "2x")
+            else {
+                buffer.append(c);
+            }
+        }
+        flushBuffer(terms, buffer, termIdCounter); // Vaciar lo que quedó al final
+
+        return terms;
+    }
+
+    /**
+     * Método auxiliar que clasifica el texto acumulado como Constante o Variable.
+     */
+    private void flushBuffer(List<com.androide.algebrago.models.Term> terms, StringBuilder buffer, int idCounter) {
+        if (buffer.length() > 0) {
+            String val = buffer.toString();
+            // Si contiene algún número, lo tratamos como Constante. Si son letras, Variable.
+            com.androide.algebrago.models.Term.TermType type = val.matches(".*\\d.*") ?
+                    com.androide.algebrago.models.Term.TermType.CONSTANT :
+                    com.androide.algebrago.models.Term.TermType.VARIABLE;
+
+            terms.add(new com.androide.algebrago.models.Term("t" + idCounter, type, val));
+            buffer.setLength(0); // Limpiamos el buffer
+        }
+    }
+
+
     private Exercise.ExerciseType parseType(String type) {
         try {
             return Exercise.ExerciseType.valueOf(type);
@@ -170,4 +229,15 @@ public class EquationRepository {
             return Exercise.ExerciseType.COMPLETE_EQUATION;
         }
     }
+
+    /**
+     * Guarda un intento de resolución en el historial.
+     * Se ejecuta en background (IO_EXECUTOR).
+     */
+    public void insertHistory(com.androide.algebrago.database.entity.EquationHistoryEntity historyRecord) {
+        com.androide.algebrago.database.AppDatabase.IO_EXECUTOR.execute(() ->
+                historyDao.insert(historyRecord)
+        );
+    }
+
 }
