@@ -83,7 +83,8 @@ public class AppFacade {
         }
         Block b = getBlock(blockId);
         if (b != null) {
-            b.recalculateProgress();
+            //lo documentamos porque lo pasamos al refresh
+            //b.recalculateProgress();
             scoreManager.saveBlockProgress(blockId, b.getProgressPercent());
         }
         scoreManager.notifyLevelCompleted(levelId, blockId);

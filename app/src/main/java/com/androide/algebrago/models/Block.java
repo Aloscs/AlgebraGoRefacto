@@ -21,17 +21,6 @@ public class Block {
         this.progressPercent = 0;
     }
 
-    public void recalculateProgress() {
-        if (levels == null || levels.isEmpty()) {
-            progressPercent = 0;
-            return;
-        }
-        int completed = 0;
-        for (Level l : levels) {
-            if (l.isCompleted()) completed++;
-        }
-        progressPercent = (completed * 100) / levels.size();
-    }
 
     // ── Getters ────────────────────────────────────────────────────────────────
 

@@ -97,7 +97,8 @@ public class ScoreManager {
 
     public void unlockAchievement(Achievement achievement) {
         if (!achievement.isUnlocked()) {
-            achievement.unlock();
+            achievement.setUnlocked(true);
+            achievement.setUnlockedAt(System.currentTimeMillis());
             saveAchievementState(achievement);
             for (ProgressObserver o : observers) o.onAchievementUnlocked(achievement.getName());
         }

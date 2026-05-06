@@ -97,4 +97,12 @@
     <string name="progress_block_default">Bloque</string>
     <string name="progress_percent_default">0%</string>
     <string name="drop_here">Soltar aquí</string>
+    <string name="aviso_cargando_ejercicios">Cargando ejercicios...</string>
+    <string name="signo_admiracion">!</string>
+    <string name="texto_logro_desbloqueado">🏆 ¡Logro desbloqueado: </string>
+    <string name="texto_boton_hint">Entendido</string>
+
+
+
+
 </resources>

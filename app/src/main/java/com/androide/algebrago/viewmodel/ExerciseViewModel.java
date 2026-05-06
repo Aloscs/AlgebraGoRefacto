@@ -42,7 +42,7 @@ import java.util.List;
 public class ExerciseViewModel extends AndroidViewModel {
 
     // ── Enumeración de resultado de respuesta ─────────────────────────────────
-    public enum AnswerResult { NONE, CORRECT, WRONG }
+    public enum AnswerResult {NONE, CORRECT, WRONG}
 
     // ── LiveData expuesto a la View ───────────────────────────────────────────
 
@@ -52,6 +52,8 @@ public class ExerciseViewModel extends AndroidViewModel {
     private final MutableLiveData<Integer> sessionScore = new MutableLiveData<>(0);
     private final MutableLiveData<Boolean> sessionComplete = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
+    private final MutableLiveData<String> achievementNotification = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isCurrentlyBalanced = new MutableLiveData<>(false);
 
     // ── Estado interno de la sesión ───────────────────────────────────────────
 
@@ -70,11 +72,40 @@ public class ExerciseViewModel extends AndroidViewModel {
 
     public ExerciseViewModel(@NonNull Application application) {
         super(application);
-        repository   = EquationRepository.getInstance(application);
-        facade       = AppFacade.getInstance(application);
+        repository = EquationRepository.getInstance(application);
+        facade = AppFacade.getInstance(application);
         stateManager = new SessionStateManager();
+
+        facade.getScoreManager().addObserver(new com.androide.algebrago.patterns.observer.ProgressObserver() {
+            @Override
+            public void onScoreChanged(int newScore) {
+            }
+
+            @Override
+            public void onStreakChanged(int newStreak) {
+            }
+
+            @Override
+            public void onLevelCompleted(int l, int b) {
+            }
+
+            @Override
+            public void onAchievementUnlocked(String name) {
+                // 3. Emite el nombre del logro a la Vista
+                achievementNotification.postValue(name);
+            }
+        });
     }
 
+    //para que el activity lo observe
+    public LiveData<String> getAchievementNotification() {
+        return achievementNotification;
+    }
+
+    //evitar que el toast vuelva a aparecer
+    public void clearAchievementNotification() {
+        achievementNotification.setValue(null);
+    }
     // ── Inicialización ────────────────────────────────────────────────────────
 
     /**
@@ -166,6 +197,61 @@ public class ExerciseViewModel extends AndroidViewModel {
         }
     }
 
+    public void submitAnswerString(String userAnswer) {
+        List<Exercise> list = exercises.getValue();
+        if (list == null || currentIndex >= list.size()) return;
+
+        Exercise ex = list.get(currentIndex);
+        boolean isCorrect = ex.getCorrectValues().contains(userAnswer);
+
+        submitAnswer(isCorrect); // Llama a tu método original que ya tenías
+    }
+
+    public void submitAnswerList(List<String> placedTokens) {
+        List<Exercise> list = exercises.getValue();
+        if (list == null || currentIndex >= list.size()) return;
+
+        Exercise ex = list.get(currentIndex);
+        List<String> correct = ex.getCorrectValues();
+
+        boolean isCorrect = true;
+        if (placedTokens.size() != correct.size()) {
+            isCorrect = false;
+        } else {
+            for (String c : correct) {
+                if (!placedTokens.contains(c)) {
+                    isCorrect = false;
+                    break;
+                }
+            }
+        }
+
+        submitAnswer(isCorrect); // Llama a tu método original
+    }
+
+    public void evaluateBalanceRealTime(List<String> placedTokens) {
+        List<Exercise> list = exercises.getValue();
+        if (list == null || currentIndex >= list.size()) return;
+
+        Exercise ex = list.get(currentIndex);
+        List<String> correct = ex.getCorrectValues();
+
+        boolean isCorrect = true;
+        if (placedTokens.size() != correct.size()) {
+            isCorrect = false;
+        } else {
+            for (String c : correct) {
+                if (!placedTokens.contains(c)) {
+                    isCorrect = false;
+                    break;
+                }
+            }
+        }
+
+        // Solo actualizamos el estado visual, NO llamamos a submitAnswer()
+        isCurrentlyBalanced.setValue(isCorrect);
+    }
+
     // ── Getters de LiveData ───────────────────────────────────────────────────
 
     public LiveData<List<Exercise>> getExercises()       { return exercises; }
@@ -174,6 +260,9 @@ public class ExerciseViewModel extends AndroidViewModel {
     public LiveData<Integer> getSessionScore()            { return sessionScore; }
     public LiveData<Boolean> getSessionComplete()         { return sessionComplete; }
     public LiveData<Boolean> getIsLoading()               { return isLoading; }
+    public LiveData<Boolean> getIsCurrentlyBalanced() {
+        return isCurrentlyBalanced;
+    }
 
     // ── Getters de estado para FeedbackActivity ───────────────────────────────
 

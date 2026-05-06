@@ -55,7 +55,7 @@ public class ProgressActivity extends AppCompatActivity {
 
                 // 2. CORRECCIÓN: Usamos tu LiquidProgressView y su ID correcto
                 LiquidProgressView pb = row.findViewById(R.id.liquid_progress);
-                int pct = viewModel.getFacade().getScoreManager().getBlockProgress(b.getId());
+                int pct = b.getProgressPercent();
                 pb.setProgress(pct);
 
                 // 3. Asignamos el porcentaje en texto

@@ -50,21 +50,19 @@ public class LevelSelectionActivity extends AppCompatActivity {
                 tvScore.setText(getString(R.string.score_label) + score));
 
         viewModel.getBlocks().observe(this, blocks -> {
-            if (blocks == null) return;
-            for (Block b : blocks) {
-                if (b.getId() == blockId) {
-                    tvBlockTitle.setText(b.getName());
-                    rvLevels.setLayoutManager(new LinearLayoutManager(this));
-                    rvLevels.setAdapter(new LevelAdapter(b.getLevels(), level -> {
-                        Intent intent = new Intent(this, ExplanationActivity.class);
-                        intent.putExtra(ExplanationActivity.EXTRA_BLOCK_ID, blockId);
-                        intent.putExtra(ExplanationActivity.EXTRA_LEVEL_ID, level.getId());
-                        startActivity(intent);
-                    }));
-                    break;
-                }
+            Block currentBlock = viewModel.getBlockById(blockId);
+            if (currentBlock != null) {
+                tvBlockTitle.setText(currentBlock.getName());
+                rvLevels.setLayoutManager(new LinearLayoutManager(this));
+                rvLevels.setAdapter(new LevelAdapter(currentBlock.getLevels(), level -> {
+                    Intent intent = new Intent(this, ExplanationActivity.class);
+                    intent.putExtra(ExplanationActivity.EXTRA_BLOCK_ID, blockId);
+                    intent.putExtra(ExplanationActivity.EXTRA_LEVEL_ID, level.getId());
+                    startActivity(intent);
+                }));
             }
         });
+
     }
 
     @Override protected void onResume() {

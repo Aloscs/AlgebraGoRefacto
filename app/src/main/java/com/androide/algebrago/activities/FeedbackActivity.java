@@ -10,8 +10,11 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.androide.algebrago.R;
+import com.androide.algebrago.viewmodel.FeedbackViewModel;
+import com.androide.algebrago.viewmodel.ViewModelFactory;
 
 public class FeedbackActivity extends AppCompatActivity {
 
@@ -22,105 +25,106 @@ public class FeedbackActivity extends AppCompatActivity {
     public static final String EXTRA_MARKS       = "extra_marks";
     public static final String EXTRA_EXPLANATIONS= "extra_explanations";
     public static final String EXTRA_SCORE       = "extra_score";
-    private static final int MAX_RETRIES = 2;
+
+    private FeedbackViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback);
 
-        Intent in         = getIntent();
-        int blockId       = in.getIntExtra(EXTRA_BLOCK_ID, 1);
-        int levelId       = in.getIntExtra(EXTRA_LEVEL_ID, 11);
-        String[] equations    = in.getStringArrayExtra(EXTRA_EQUATIONS);
-        String[] corrects     = in.getStringArrayExtra(EXTRA_CORRECTS);
-        String[] marks        = in.getStringArrayExtra(EXTRA_MARKS);
-        String[] explanations = in.getStringArrayExtra(EXTRA_EXPLANATIONS);
-        int score         = in.getIntExtra(EXTRA_SCORE, 0);
-        int retryCount    = in.getIntExtra("retry_count", 0);
+        viewModel = new ViewModelProvider(this, new ViewModelFactory(getApplication()))
+                .get(FeedbackViewModel.class);
 
-        // Referencias principales del activity_feedback.xml
+        // 1. Extraer Intent (Con programación defensiva)
+        Intent in = getIntent();
+        int blockId = in.getIntExtra(EXTRA_BLOCK_ID, -1);
+        int levelId = in.getIntExtra(EXTRA_LEVEL_ID, -1);
+
+        if (blockId == -1 || levelId == -1) {
+            finish();
+            return; // Evita cargar si los datos están corruptos
+        }
+
+        // 2. Mandamos la información cruda al ViewModel para que trabaje
+        viewModel.processIntentData(
+                blockId, levelId,
+                in.getIntExtra(EXTRA_SCORE, 0),
+                in.getIntExtra("retry_count", 0),
+                in.getStringArrayExtra(EXTRA_EQUATIONS),
+                in.getStringArrayExtra(EXTRA_CORRECTS),
+                in.getStringArrayExtra(EXTRA_MARKS),
+                in.getStringArrayExtra(EXTRA_EXPLANATIONS)
+        );
+
+        // 3. Referencias de UI
         com.google.android.material.button.MaterialButton tvScore = findViewById(R.id.tv_score_feedback);
         ImageButton btnBack = findViewById(R.id.btn_back_feedback);
         com.google.android.material.button.MaterialButton btnRetry = findViewById(R.id.btn_retry_level);
         com.google.android.material.button.MaterialButton btnFinish = findViewById(R.id.btn_finish_feedback);
         LinearLayout container = findViewById(R.id.ll_feedback_cards);
 
-        tvScore.setText(getString(R.string.score_label) + score);
+        // 4. Observadores
+        viewModel.getScore().observe(this, score ->
+                tvScore.setText(getString(R.string.score_label) + score));
+
+        viewModel.getFeedbackItems().observe(this, items -> {
+            container.removeAllViews();
+            for (int i = 0; i < items.size(); i++) {
+                addResultCard(container, i, items.get(i));
+            }
+        });
+
+        viewModel.getCanRetry().observe(this, canRetry ->
+                btnRetry.setVisibility(Boolean.TRUE.equals(canRetry) ? View.VISIBLE : View.GONE));
+
+        viewModel.getRetryButtonText().observe(this, btnRetry::setText);
+
+        // 5. Click Listeners para navegación
         btnBack.setOnClickListener(v -> finish());
 
-        if (equations != null) {
-            for (int i = 0; i < equations.length; i++) {
-                addResultCard(container, i, equations[i],
-                        corrects != null && i < corrects.length ? corrects[i] : "",
-                        marks    != null && i < marks.length    ? marks[i]    : "?",
-                        explanations != null && i < explanations.length ? explanations[i] : "");
-            }
-        }
-
-        if (retryCount < MAX_RETRIES) {
-            btnRetry.setVisibility(View.VISIBLE);
-            btnRetry.setText(getString(R.string.btn_retry) + " (" + (MAX_RETRIES - retryCount) + " restantes)");
-            btnRetry.setOnClickListener(v -> {
-                Intent intent = new Intent(this, ExerciseActivity.class);
-                intent.putExtra(ExerciseActivity.EXTRA_BLOCK_ID, blockId);
-                intent.putExtra(ExerciseActivity.EXTRA_LEVEL_ID, levelId);
-                intent.putExtra("retry_count", retryCount + 1);
-                startActivity(intent);
-                finish();
-            });
-        } else {
-            btnRetry.setVisibility(View.GONE);
-        }
+        btnRetry.setOnClickListener(v -> {
+            Intent intent = new Intent(this, ExerciseActivity.class);
+            intent.putExtra(ExerciseActivity.EXTRA_BLOCK_ID, viewModel.getBlockId());
+            intent.putExtra(ExerciseActivity.EXTRA_LEVEL_ID, viewModel.getLevelId());
+            intent.putExtra("retry_count", viewModel.getNextRetryCount());
+            startActivity(intent);
+            finish();
+        });
 
         btnFinish.setOnClickListener(v -> {
             Intent intent = new Intent(this, ScoreActivity.class);
-            intent.putExtra(ScoreActivity.EXTRA_SCORE, score);
+            intent.putExtra(ScoreActivity.EXTRA_SCORE, viewModel.getScore().getValue());
             startActivity(intent);
             finish();
         });
     }
 
-    private void addResultCard(LinearLayout container, int idx, String equation,
-                               String correct, String mark, String explanation) {
+    // 6. El método UI ahora recibe el objeto procesado directamente
+    private void addResultCard(LinearLayout container, int idx, FeedbackViewModel.FeedbackItem item) {
         View card = LayoutInflater.from(this)
                 .inflate(R.layout.item_feedback_card, container, false);
 
-        // ════════════════════════════════════════════════════════
-        // MATCH EXACTO CON TU item_feedback_card.xml
-        // ════════════════════════════════════════════════════════
-
-        // Número de la pregunta
         ((TextView) card.findViewById(R.id.tv_number)).setText(String.valueOf(idx + 1));
+        ((TextView) card.findViewById(R.id.tv_equation)).setText(item.equation);
+        ((TextView) card.findViewById(R.id.tv_correct_answer)).setText("Respuesta: " + item.correctAnswer);
 
-        // Ecuación
-        ((TextView) card.findViewById(R.id.tv_equation)).setText(equation);
-
-        // Respuesta correcta
-        ((TextView) card.findViewById(R.id.tv_correct_answer)).setText("Respuesta: " + correct);
-
-        // Marca (la palomita o tache)
         TextView tvMark = card.findViewById(R.id.tv_result);
-        tvMark.setText(mark);
+        tvMark.setText(item.mark);
 
-        // Lógica visual si es correcto o no
-        boolean isCorrect = "✓".equals(mark);
-
-        // Opcional: Si quieres que la palomita sea verde y el tache rojo (Neo-Brutalismo)
-        if (isCorrect) {
-            tvMark.setTextColor(ContextCompat.getColor(this, R.color.black)); // Puedes cambiar a un verde sólido luego si gustas
+        // Usamos la variable booleana que ya calculó el ViewModel
+        if (item.isCorrect) {
+            tvMark.setTextColor(ContextCompat.getColor(this, R.color.black));
         } else {
-            tvMark.setTextColor(ContextCompat.getColor(this, R.color.black)); // Puedes cambiar a rojo
+            tvMark.setTextColor(ContextCompat.getColor(this, R.color.black));
         }
 
-        // Explicación
         TextView tvExpBody = card.findViewById(R.id.tv_explanation);
         tvExpBody.setVisibility(View.GONE);
 
-        // Botón de expandir
         card.findViewById(R.id.btn_expand).setOnClickListener(v -> {
             if (tvExpBody.getVisibility() == View.GONE) {
-                tvExpBody.setText(explanation);
+                tvExpBody.setText(item.explanation);
                 tvExpBody.setVisibility(View.VISIBLE);
             } else {
                 tvExpBody.setVisibility(View.GONE);

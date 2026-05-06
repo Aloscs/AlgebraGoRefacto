@@ -37,6 +37,9 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
         if (modelClass.isAssignableFrom(MainViewModel.class)) {
             return (T) new MainViewModel(application);
         }
+        if (modelClass.isAssignableFrom(FeedbackViewModel.class)) {
+            return (T) new FeedbackViewModel(application);
+        }
         throw new IllegalArgumentException("ViewModel desconocido: " + modelClass.getName());
     }
 }

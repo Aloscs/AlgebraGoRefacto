@@ -31,11 +31,6 @@ public class Achievement {
         this.unlockedAt = 0;
     }
 
-    public void unlock() {
-        this.unlocked = true;
-        this.unlockedAt = System.currentTimeMillis();
-    }
-
     // ── Getters ────────────────────────────────────────────────────────────────
 
     public int getId() { return id; }

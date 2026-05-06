@@ -162,13 +162,29 @@ public class ExerciseActivity extends AppCompatActivity {
         // Loading indicator
         viewModel.getIsLoading().observe(this, loading -> {
             if (Boolean.TRUE.equals(loading)) {
-                tvInstruction.setText("Cargando ejercicios...");
+                tvInstruction.setText(R.string.aviso_cargando_ejercicios);
             }
         });
 
         // Score inicial
         viewModel.getSessionScore().observe(this, score ->
                 tvScore.setText(getString(R.string.score_label) + score));
+
+        viewModel.getAchievementNotification().observe(this, achievementName -> {
+            if (achievementName != null) {
+                // Muestra el Toast, Snackbar, o Dialog. ¡Aquí sí es válido!
+                Toast.makeText(this, R.string.texto_logro_desbloqueado + achievementName + R.string.signo_admiracion, Toast.LENGTH_LONG).show();
+
+                // Limpiamos el evento para no repetir el Toast por accidente
+                viewModel.clearAchievementNotification();
+            }
+        });
+
+        viewModel.getIsCurrentlyBalanced().observe(this, isBalanced -> {
+            if (isBalanced != null) {
+                animateBalance(isBalanced);
+            }
+        });
     }
 
     // ── Acción: verificar respuesta ───────────────────────────────────────────
@@ -176,12 +192,28 @@ public class ExerciseActivity extends AppCompatActivity {
     private void handleSubmitClick() {
         Exercise ex = viewModel.getCurrentExercise().getValue();
         if (ex == null) return;
-        boolean correct = checkAnswerLocally(ex);
-        viewModel.submitAnswer(correct);
+        if (ex.getType() == Exercise.ExerciseType.COMPLETE_EQUATION) {
+            // Recolectar respuesta de RadioButtons
+            if (rgOptions == null || rgOptions.getCheckedRadioButtonId() == -1) return;
+            RadioButton rb = rgOptions.findViewById(rgOptions.getCheckedRadioButtonId());
+
+            // Le mandamos el texto crudo al ViewModel
+            viewModel.submitAnswerString(rb.getText().toString().trim());
+
+        } else {
+            // Recolectar respuesta de la Balanza
+            List<String> placedTokens = new ArrayList<>();
+            if (leftSlots != null)  for (String s : leftSlots)  if (s != null) placedTokens.add(s);
+            if (rightSlots != null) for (String s : rightSlots) if (s != null) placedTokens.add(s);
+
+            // Le mandamos la lista de fichas al ViewModel
+            viewModel.submitAnswerList(placedTokens);
+        }
+
     }
 
     /** La verificación de respuesta sigue siendo local (lógica de presentación). */
-    private boolean checkAnswerLocally(Exercise ex) {
+   /* private boolean checkAnswerLocally(Exercise ex) {
         if (ex.getType() == Exercise.ExerciseType.COMPLETE_EQUATION) {
             if (rgOptions == null) return false;
             int selectedId = rgOptions.getCheckedRadioButtonId();
@@ -198,7 +230,7 @@ public class ExerciseActivity extends AppCompatActivity {
             for (String c : correct) if (!placed.contains(c)) return false;
             return true;
         }
-    }
+    }*/
 
     // ── Pista ─────────────────────────────────────────────────────────────────
 
@@ -209,7 +241,7 @@ public class ExerciseActivity extends AppCompatActivity {
         new AlertDialog.Builder(this, R.style.Dialog_AlgebraGo)
                 .setTitle(getString(R.string.hint_title) + " 💡")
                 .setMessage(ex.getHint())
-                .setPositiveButton("Entendido", null)
+                .setPositiveButton(R.string.texto_boton_hint, null)
                 .show();
     }
 
@@ -296,6 +328,7 @@ public class ExerciseActivity extends AppCompatActivity {
 
     private boolean handleDrag(DragEvent event, int side, Exercise ex) {
         LinearLayout zone = side == 0 ? dropZoneLeft : dropZoneRight;
+        List<String> placedTokens = new ArrayList<>();
         switch (event.getAction()) {
             case DragEvent.ACTION_DRAG_STARTED:  return true;
             case DragEvent.ACTION_DRAG_ENTERED:
@@ -307,7 +340,9 @@ public class ExerciseActivity extends AppCompatActivity {
                 if (side == 0 && leftSlots.length > 0)  leftSlots[0] = token;
                 if (side == 1 && rightSlots.length > 0) rightSlots[0] = token;
                 updateBalanceDisplay(ex);
-                animateBalance(ex);
+                if (leftSlots != null)  for (String s : leftSlots)  if (s != null) placedTokens.add(s);
+                if (rightSlots != null) for (String s : rightSlots) if (s != null) placedTokens.add(s);
+                viewModel.evaluateBalanceRealTime(placedTokens);
                 zone.setBackgroundResource(R.drawable.bg_drop_zone);
                 return true;
             case DragEvent.ACTION_DRAG_ENDED:
@@ -316,7 +351,9 @@ public class ExerciseActivity extends AppCompatActivity {
                     if (dragged != null) {
                         removeTokenFromSlots((String) dragged.getTag());
                         updateBalanceDisplay(ex);
-                        animateBalance(ex);
+                        if (leftSlots != null)  for (String s : leftSlots)  if (s != null) placedTokens.add(s);
+                        if (rightSlots != null) for (String s : rightSlots) if (s != null) placedTokens.add(s);
+                        viewModel.evaluateBalanceRealTime(placedTokens);
                     }
                 }
                 return true;
@@ -349,13 +386,14 @@ public class ExerciseActivity extends AppCompatActivity {
         return sb.toString();
     }
 
-    private void animateBalance(Exercise ex) {
+    private void animateBalance(boolean isBalanced) {
         if (balanceArmAssembly == null) return;
-        boolean correct = checkAnswerLocally(ex);
+
+        // Ya no llamamos a checkAnswerLocally aquí
         balanceArmAssembly.animate()
-                .rotation(correct ? 0f : -10f)
-                .setDuration(correct ? 600 : 300)
-                .setInterpolator(correct
+                .rotation(isBalanced ? 0f : -10f)
+                .setDuration(isBalanced ? 600 : 300)
+                .setInterpolator(isBalanced
                         ? new android.view.animation.OvershootInterpolator()
                         : new android.view.animation.DecelerateInterpolator())
                 .start();
