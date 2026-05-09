@@ -11,7 +11,7 @@
         android:theme="@style/Theme.AlgebraGo">
 
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".feature.home.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,14 +19,14 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activities.BlockSelectionActivity" />
-        <activity android:name=".activities.LevelSelectionActivity" />
-        <activity android:name=".activities.ExplanationActivity" />
-        <activity android:name=".activities.ExerciseActivity" />
-        <activity android:name=".activities.FeedbackActivity" />
-        <activity android:name=".activities.ProgressActivity" />
-        <activity android:name=".activities.AchievementsActivity" />
-        <activity android:name=".activities.ScoreActivity" />
+        <activity android:name=".feature.blocks.BlockSelectionActivity" />
+        <activity android:name=".feature.levels.LevelSelectionActivity" />
+        <activity android:name=".feature.explanation.ExplanationActivity" />
+        <activity android:name=".feature.exercise.ExerciseActivity" />
+        <activity android:name=".feature.feedback.FeedbackActivity" />
+        <activity android:name=".feature.progress.ProgressActivity" />
+        <activity android:name=".feature.achivements.AchievementsActivity" />
+        <activity android:name=".feature.score.ScoreActivity" />
 
     </application>
 
