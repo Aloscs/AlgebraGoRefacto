@@ -11,7 +11,7 @@ import com.androide.algebrago.models.Exercise;
 import com.androide.algebrago.patterns.facade.AppFacade;
 import com.androide.algebrago.patterns.state.SessionStateManager;
 import com.androide.algebrago.repository.EquationRepository;
-
+import com.androide.algebrago.models.Achievement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,6 +53,8 @@ public class ExerciseViewModel extends AndroidViewModel {
     private final MutableLiveData<Boolean> sessionComplete = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
 
+    private final MutableLiveData<Achievement> achievementUnlocked = new MutableLiveData<>();
+
     // ── Estado interno de la sesión ───────────────────────────────────────────
 
     private int currentIndex = 0;
@@ -73,7 +75,17 @@ public class ExerciseViewModel extends AndroidViewModel {
         repository   = EquationRepository.getInstance(application);
         facade       = AppFacade.getInstance(application);
         stateManager = new SessionStateManager();
+        facade.getScoreManager().addObserver(new com.androide.algebrago.patterns.observer.ProgressObserver() {
+            @Override public void onScoreChanged(int newScore)    {}
+            @Override public void onStreakChanged(int newStreak)  {}
+            @Override public void onLevelCompleted(int l, int b)  {}
+            @Override public void onAchievementUnlocked(com.androide.algebrago.models.Achievement a) {
+                achievementUnlocked.postValue(a);
+            }
+        });
+
     }
+
 
     // ── Inicialización ────────────────────────────────────────────────────────
 
@@ -188,4 +200,6 @@ public class ExerciseViewModel extends AndroidViewModel {
     }
 
     public int getCurrentIndex() { return currentIndex; }
+
+    public LiveData<Achievement> getAchievementUnlocked() { return achievementUnlocked; }
 }

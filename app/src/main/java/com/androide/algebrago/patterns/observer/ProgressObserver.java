@@ -1,4 +1,5 @@
 package com.androide.algebrago.patterns.observer;
+import com.androide.algebrago.models.Achievement;
 
 /**
  * PATTERN: Observer
@@ -12,6 +13,6 @@ package com.androide.algebrago.patterns.observer;
 public interface ProgressObserver {
     void onScoreChanged(int newScore);
     void onStreakChanged(int newStreak);
-    void onAchievementUnlocked(String achievementName);
+    void onAchievementUnlocked(Achievement achievement);
     void onLevelCompleted(int levelId, int blockId);
 }

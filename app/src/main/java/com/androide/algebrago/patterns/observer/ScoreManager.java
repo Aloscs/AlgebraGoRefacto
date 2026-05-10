@@ -99,7 +99,7 @@ public class ScoreManager {
         if (!achievement.isUnlocked()) {
             achievement.unlock();
             saveAchievementState(achievement);
-            for (ProgressObserver o : observers) o.onAchievementUnlocked(achievement.getName());
+            for (ProgressObserver o : observers) o.onAchievementUnlocked(achievement);
         }
     }
 

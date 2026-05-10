@@ -169,6 +169,12 @@ public class ExerciseActivity extends AppCompatActivity {
         // Score inicial
         viewModel.getSessionScore().observe(this, score ->
                 tvScore.setText(getString(R.string.score_label) + score));
+
+        // Logro desbloqueado → mostrar card
+        viewModel.getAchievementUnlocked().observe(this, achievement -> {
+            if (achievement == null) return;
+            showAchievementCard(achievement);
+        });
     }
 
     // ── Acción: verificar respuesta ───────────────────────────────────────────
@@ -389,5 +395,52 @@ public class ExerciseActivity extends AppCompatActivity {
         intent.putExtra(FeedbackActivity.EXTRA_SCORE,        viewModel.getTotalScore());
         startActivity(intent);
         finish();
+    }
+
+    private void showAchievementCard(com.androide.algebrago.models.Achievement achievement) {
+        // Inflar la card sobre el contenido actual
+        android.widget.FrameLayout rootView = (android.widget.FrameLayout)
+                ((android.view.ViewGroup) getWindow().getDecorView()).getChildAt(0);
+
+        android.view.View card = getLayoutInflater()
+                .inflate(R.layout.item_achievement_card, rootView, false);
+
+        // Rellenar datos
+        ((TextView) card.findViewById(R.id.tv_achievement_icon)).setText(iconForAchievementType(achievement.getType()));
+        ((TextView) card.findViewById(R.id.tv_achievement_name)).setText(achievement.getName());
+        ((TextView) card.findViewById(R.id.tv_achievement_desc)).setText(achievement.getDescription());
+        ((TextView) card.findViewById(R.id.tv_achievement_status)).setText("✓ Obtenido");
+
+        // Posicionar arriba centrada
+        android.widget.FrameLayout.LayoutParams params = new android.widget.FrameLayout.LayoutParams(
+                android.widget.FrameLayout.LayoutParams.MATCH_PARENT,
+                android.widget.FrameLayout.LayoutParams.WRAP_CONTENT);
+        params.gravity = android.view.Gravity.TOP | android.view.Gravity.CENTER_HORIZONTAL;
+        params.setMargins(48, 80, 48, 0);
+        card.setLayoutParams(params);
+
+        rootView.addView(card);
+
+        // Animación de entrada
+        card.setAlpha(0f);
+        card.setTranslationY(-60f);
+        card.animate().alpha(1f).translationY(0f).setDuration(400)
+                .setInterpolator(new android.view.animation.OvershootInterpolator())
+                .start();
+
+        // Auto-desaparecer después de 3 segundos
+        card.postDelayed(() -> card.animate().alpha(0f).translationY(-40f)
+                .setDuration(300).withEndAction(() -> rootView.removeView(card)).start(), 3000);
+    }
+
+    private String iconForAchievementType(com.androide.algebrago.models.Achievement.AchievementType t) {
+        switch (t) {
+            case STREAK_CORRECT: return "⚡";
+            case DAILY_STREAK:   return "📅";
+            case PERFECT_LEVEL:  return "⭐";
+            case BLOCK_COMPLETE: return "🏅";
+            case TOPIC_MASTERY:  return "🎓";
+            default:             return "🏆";
+        }
     }
 }

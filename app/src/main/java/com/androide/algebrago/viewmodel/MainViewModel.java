@@ -12,7 +12,7 @@ import com.androide.algebrago.models.Block;
 import com.androide.algebrago.patterns.facade.AppFacade;
 
 import java.util.List;
-
+import com.androide.algebrago.models.Achievement;
 /**
  * ViewModel compartido para MainActivity, BlockSelectionActivity y ProgressActivity.
  *
@@ -58,7 +58,7 @@ public class MainViewModel extends AndroidViewModel {
         facade.getScoreManager().addObserver(new com.androide.algebrago.patterns.observer.ProgressObserver() {
             @Override public void onScoreChanged(int newScore)        { score.postValue(newScore); }
             @Override public void onStreakChanged(int newStreak)      {}
-            @Override public void onAchievementUnlocked(String name)  { refresh(); }
+            @Override public void onAchievementUnlocked(Achievement achievement)  { refresh(); }
             @Override public void onLevelCompleted(int l, int b)       { refresh(); }
         });
     }
