@@ -76,42 +76,30 @@ public class ExerciseActivity extends AppCompatActivity {
                 .get(ExerciseViewModel.class);
 
         bindViews();
-        setupListeners();
         observeViewModel();
+
         // Arrancar carga de ejercicios (consulta Room → dominio)
         viewModel.loadExercises(blockId, levelId);
     }
 
     // ── Binding ───────────────────────────────────────────────────────────────
 
-    private com.google.android.material.appbar.MaterialToolbar toolbar;
-
     private void bindViews() {
-        tvScore = findViewById(R.id.tv_score_exercise);
-        tvExerciseCounter = findViewById(R.id.tv_exercise_counter);
-        tvInstruction = findViewById(R.id.tv_exercise_instruction);
-        tvEquation = findViewById(R.id.tv_equation);
-
-        btnHint = findViewById(R.id.btn_hint);
-        btnSubmit = findViewById(R.id.btn_submit);
-        btnNext = findViewById(R.id.btn_next_exercise);
-
+        tvScore             = findViewById(R.id.tv_score_exercise);
+        tvExerciseCounter   = findViewById(R.id.tv_exercise_counter);
+        tvInstruction       = findViewById(R.id.tv_exercise_instruction);
+        tvEquation          = findViewById(R.id.tv_equation);
+        btnHint             = findViewById(R.id.btn_hint);
+        btnSubmit           = findViewById(R.id.btn_submit);
+        btnNext             = findViewById(R.id.btn_next_exercise);
         exerciseContentContainer = findViewById(R.id.exercise_content_container);
 
-        toolbar = findViewById(R.id.toolbar_exercise);
-    }
-
-    private void setupListeners() {
-
         btnHint.setOnClickListener(v -> showHintDialog());
-
         btnSubmit.setOnClickListener(v -> handleSubmitClick());
-
         btnNext.setOnClickListener(v -> viewModel.nextExercise());
 
-        if (toolbar != null) {
-            toolbar.setNavigationOnClickListener(v -> finish());
-        }
+        com.google.android.material.appbar.MaterialToolbar toolbar = findViewById(R.id.toolbar_exercise);
+        if (toolbar != null) toolbar.setNavigationOnClickListener(v -> finish());
     }
 
     // ── Observadores LiveData ─────────────────────────────────────────────────
@@ -185,7 +173,7 @@ public class ExerciseActivity extends AppCompatActivity {
         viewModel.getAchievementNotification().observe(this, achievementName -> {
             if (achievementName != null) {
                 // Muestra el Toast, Snackbar, o Dialog. ¡Aquí sí es válido!
-                Toast.makeText(this, getString(R.string.texto_logro_desbloqueado) + achievementName + getString(R.string.signo_admiracion), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.texto_logro_desbloqueado + achievementName + R.string.signo_admiracion, Toast.LENGTH_LONG).show();
 
                 // Limpiamos el evento para no repetir el Toast por accidente
                 viewModel.clearAchievementNotification();
