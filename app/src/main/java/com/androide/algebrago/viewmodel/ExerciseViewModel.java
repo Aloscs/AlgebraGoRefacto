@@ -14,7 +14,7 @@ import com.androide.algebrago.repository.EquationRepository;
 import com.androide.algebrago.models.Achievement;
 import java.util.ArrayList;
 import java.util.List;
-
+import androidx.lifecycle.Observer;
 /**
  * ViewModel para ExerciseActivity.
  *
@@ -99,14 +99,21 @@ public class ExerciseViewModel extends AndroidViewModel {
         isLoading.setValue(true);
         stateManager.transitionToExercising();
 
-        repository.loadExercisesForLevel(blockId, levelId, new MutableLiveData<List<Exercise>>() {
+        // Pasar directamente el MutableLiveData del ViewModel
+        repository.loadExercisesForLevel(blockId, levelId, exercises);
+
+        // Observar el resultado para aplicar el fallback y la lógica de inicio
+        exercises.observeForever(new Observer<List<Exercise>>() {
             @Override
-            public void postValue(List<Exercise> value) {
+            public void onChanged(List<Exercise> value) {
+                exercises.removeObserver(this); // solo escuchar una vez
+
                 if (value == null || value.isEmpty()) {
-                    // Fallback: obtener ejercicios del AppFacade (en memoria)
-                    value = facade.getExercisesForLevel(blockId, levelId);
+                    List<Exercise> fallback = facade.getExercisesForLevel(blockId, levelId);
+                    exercises.postValue(fallback);
+                    value = fallback;
                 }
-                exercises.postValue(value);
+
                 isLoading.postValue(false);
 
                 if (value != null && !value.isEmpty()) {
@@ -145,16 +152,15 @@ public class ExerciseViewModel extends AndroidViewModel {
         } else {
             answerResult.setValue(AnswerResult.WRONG);
             facade.submitWrongAnswer();
-            firstAttempt = false;
 
-            // Registra el error solo si es el primer intento para no duplicar
-            if (firstAttempt) {
+            if (firstAttempt) {               // ← verificar ANTES de cambiar
                 sessionResults.add(new String[]{
                         ex.getEquationFull(),
                         String.join(", ", ex.getCorrectValues()),
                         "✗"
                 });
             }
+            firstAttempt = false;             // ← asignar DESPUÉS
         }
     }
 
