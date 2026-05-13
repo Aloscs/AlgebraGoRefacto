@@ -9,7 +9,7 @@
     android:background="?attr/colorFondoPersonalizado">
 
     <!-- CÍRCULO -->
-    <com.androide.algebrago.views.LiquidProgressView
+    <com.androide.algebrago.feature.progress.views.LiquidProgressView
         android:id="@+id/liquid_progress"
         android:layout_width="@dimen/progress_circle_size"
         android:layout_height="@dimen/progress_circle_size" />
