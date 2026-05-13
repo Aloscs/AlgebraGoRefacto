@@ -277,14 +277,20 @@ public class ExerciseActivity extends AppCompatActivity {
         setupDropZones(ex);
     }
 
-    private int countBlanks(String s) {
+   /* private int countBlanks(String s) {
         if (s == null) return 1;
         int c = 0;
         for (char ch : s.toCharArray()) if (ch == '?') c++;
         return Math.max(c, 1);
-    }
+    }*/
+   private int countBlanks(String s) {
+       if (s == null) return 0;
+       int c = 0;
+       for (char ch : s.toCharArray()) if (ch == '?') c++;
+       return c; // Ya no forzamos que devuelva 1
+   }
 
-    private void buildDragOptions(Exercise ex) {
+   /* private void buildDragOptions(Exercise ex) {
         layoutOptionsBalance.removeAllViews();
         for (String opt : ex.getOptions()) {
             Button chip = new Button(this);
@@ -304,7 +310,40 @@ public class ExerciseActivity extends AppCompatActivity {
             });
             layoutOptionsBalance.addView(chip);
         }
-    }
+    }*/
+   private void buildDragOptions(Exercise ex) {
+       layoutOptionsBalance.removeAllViews();
+       for (String opt : ex.getOptions()) {
+           Button chip = new Button(this);
+           chip.setText(opt);
+           // Hacemos el texto más grande para que contraste con la imagen
+           chip.setTextSize(18f);
+           chip.setTextColor(ContextCompat.getColor(this, R.color.black));
+
+           // ── LÓGICA DE IDENTIDAD GRÁFICA (Punto 4) ──
+           // Si la opción contiene alguna letra de la A a la Z (ej. "x", "2y"), es una Variable.
+           if (opt.matches(".*[a-zA-Z].*")) {
+               chip.setBackgroundResource(R.drawable.ic_variable_box);
+           } else {
+               // Si son solo números o signos (ej. "5", "-2"), es una Constante.
+               chip.setBackgroundResource(R.drawable.ic_constant_weight);
+           }
+
+           LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                   // Le damos un tamaño cuadrado fijo (ej. 150x150 px) para que no se deformen los vectores
+                   150, 150);
+           lp.setMargins(16, 0, 16, 0);
+           chip.setLayoutParams(lp);
+           chip.setTag(opt);
+
+           chip.setOnLongClickListener(v -> {
+               ClipData cd = ClipData.newPlainText("token", opt);
+               v.startDragAndDrop(cd, new View.DragShadowBuilder(v), v, 0);
+               return true;
+           });
+           layoutOptionsBalance.addView(chip);
+       }
+   }
 
     private void setupDropZones(Exercise ex) {
         dropZoneLeft.setOnDragListener((v, e) -> handleDrag(e, 0, ex));
