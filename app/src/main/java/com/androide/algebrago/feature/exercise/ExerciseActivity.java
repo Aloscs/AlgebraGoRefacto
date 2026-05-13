@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.view.LayoutInflater;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -184,10 +185,7 @@ public class ExerciseActivity extends AppCompatActivity {
 
         viewModel.getAchievementNotification().observe(this, achievementName -> {
             if (achievementName != null) {
-                // Muestra el Toast, Snackbar, o Dialog. ¡Aquí sí es válido!
-                Toast.makeText(this, R.string.texto_logro_desbloqueado + achievementName + R.string.signo_admiracion, Toast.LENGTH_LONG).show();
-
-                // Limpiamos el evento para no repetir el Toast por accidente
+                showAchievementCard(achievementName);
                 viewModel.clearAchievementNotification();
             }
         });
@@ -427,5 +425,51 @@ public class ExerciseActivity extends AppCompatActivity {
         intent.putExtra(FeedbackActivity.EXTRA_SCORE,        viewModel.getTotalScore());
         startActivity(intent);
         finish();
+    }
+
+    // ── Achievement Card ──────────────────────────────────────────────────────
+
+    /**
+     * Muestra la card de logro (item_achievement_card) superpuesta sobre la
+     * pantalla de ejercicios. Se cierra automáticamente después de 3 segundos
+     * o al tocarla.
+     */
+    private void showAchievementCard(String achievementName) {
+        // Inflar la card dentro del layout raíz de la Activity
+        FrameLayout root = findViewById(android.R.id.content);
+        View card = LayoutInflater.from(this)
+                .inflate(R.layout.item_achievement_card, root, false);
+
+        // Rellenar datos
+        ((TextView) card.findViewById(R.id.tv_achievement_name))
+                .setText(getString(R.string.texto_logro_desbloqueado) + achievementName
+                        + getString(R.string.signo_admiracion));
+        ((TextView) card.findViewById(R.id.tv_achievement_desc))
+                .setText(achievementName);
+        ((TextView) card.findViewById(R.id.tv_achievement_icon))
+                .setText("🏆");
+        ((TextView) card.findViewById(R.id.tv_achievement_status))
+                .setText(getString(R.string.achievement_status_unlocked));
+
+        // Posicionar la card en la parte inferior con margen
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT
+        );
+        int margin = (int) (16 * getResources().getDisplayMetrics().density);
+        params.setMargins(margin, 0, margin, margin * 4);
+        params.gravity = android.view.Gravity.BOTTOM;
+        card.setLayoutParams(params);
+        card.setElevation(16f);
+
+        root.addView(card);
+
+        // Cerrar al tocar la card
+        card.setOnClickListener(v -> root.removeView(card));
+
+        // Auto-cerrar después de 3 segundos
+        card.postDelayed(() -> {
+            if (card.getParent() != null) root.removeView(card);
+        }, 3000);
     }
 }
