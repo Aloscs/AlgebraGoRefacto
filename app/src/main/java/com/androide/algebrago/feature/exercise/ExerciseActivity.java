@@ -143,7 +143,7 @@ public class ExerciseActivity extends AppCompatActivity {
                 case WRONG:
                     if (ex != null) {
                         tvEquation.setBackgroundColor(
-                                ContextCompat.getColor(this, R.color.gray_light));
+                                ContextCompat.getColor(this, R.color.incorrect_bg));
                         tvEquation.setText("✗  " + ex.getEquationFull());
                     }
                     Toast.makeText(this, getString(R.string.incorrect_answer), Toast.LENGTH_SHORT).show();
@@ -172,8 +172,12 @@ public class ExerciseActivity extends AppCompatActivity {
 
         viewModel.getAchievementNotification().observe(this, achievementName -> {
             if (achievementName != null) {
-                // Muestra el Toast, Snackbar, o Dialog. ¡Aquí sí es válido!
-                Toast.makeText(this, R.string.texto_logro_desbloqueado + achievementName + R.string.signo_admiracion, Toast.LENGTH_LONG).show();
+                // 🟢 CORRECCIÓN: Usar getString() para traducir el ID a texto real
+                String mensaje = getString(R.string.texto_logro_desbloqueado)
+                        + " " + achievementName
+                        + getString(R.string.signo_admiracion);
+
+                Toast.makeText(this, mensaje, Toast.LENGTH_LONG).show();
 
                 // Limpiamos el evento para no repetir el Toast por accidente
                 viewModel.clearAchievementNotification();
@@ -344,10 +348,28 @@ public class ExerciseActivity extends AppCompatActivity {
            layoutOptionsBalance.addView(chip);
        }
    }
-
     private void setupDropZones(Exercise ex) {
-        dropZoneLeft.setOnDragListener((v, e) -> handleDrag(e, 0, ex));
-        dropZoneRight.setOnDragListener((v, e) -> handleDrag(e, 1, ex));
+        // Solo activamos la zona (y el brillo) si realmente hay espacios vacíos en ese lado
+        if (leftSlots != null && leftSlots.length > 0) {
+            dropZoneLeft.setOnDragListener((v, e) -> handleDrag(e, 0, ex));
+        } else {
+            dropZoneLeft.setOnDragListener(null); // Desactiva el Drag & Drop de este lado
+        }
+
+        if (rightSlots != null && rightSlots.length > 0) {
+            dropZoneRight.setOnDragListener((v, e) -> handleDrag(e, 1, ex));
+        } else {
+            dropZoneRight.setOnDragListener(null); // Desactiva el Drag & Drop de este lado
+        }
+        dropZoneLeft.setOnClickListener(v -> {
+            if (leftSlots != null) java.util.Arrays.fill(leftSlots, null);
+            updateBalanceDisplay(ex);
+        });
+
+        dropZoneRight.setOnClickListener(v -> {
+            if (rightSlots != null) java.util.Arrays.fill(rightSlots, null);
+            updateBalanceDisplay(ex);
+        });
     }
 
     private boolean handleDrag(DragEvent event, int side, Exercise ex) {
@@ -359,14 +381,55 @@ public class ExerciseActivity extends AppCompatActivity {
                 zone.setBackgroundResource(R.drawable.bg_drop_active); return true;
             case DragEvent.ACTION_DRAG_EXITED:
                 zone.setBackgroundResource(R.drawable.bg_drop_zone); return true;
+
             case DragEvent.ACTION_DROP:
                 String token = event.getClipData().getItemAt(0).getText().toString();
-                if (side == 0 && leftSlots.length > 0)  leftSlots[0] = token;
-                if (side == 1 && rightSlots.length > 0) rightSlots[0] = token;
-                updateBalanceDisplay(ex);
-                if (leftSlots != null)  for (String s : leftSlots)  if (s != null) placedTokens.add(s);
-                if (rightSlots != null) for (String s : rightSlots) if (s != null) placedTokens.add(s);
-                viewModel.evaluateBalanceRealTime(placedTokens);
+                boolean placed = false;
+
+                // ── LÓGICA DEL LADO IZQUIERDO ──
+                if (side == 0 && leftSlots != null && leftSlots.length > 0) {
+                    // 1. Buscamos un espacio vacío
+                    for (int i = 0; i < leftSlots.length; i++) {
+                        if (leftSlots[i] == null) {
+                            leftSlots[i] = token;
+                            placed = true;
+                            break;
+                        }
+                    }
+                    // 2. Si no encontró espacio (está lleno), vaciamos el arreglo y la ponemos al inicio
+                    if (!placed) {
+                        java.util.Arrays.fill(leftSlots, null); // Limpia las respuestas anteriores
+                        leftSlots[0] = token; // Coloca la nueva
+                        placed = true;
+                    }
+                }
+
+                // ── LÓGICA DEL LADO DERECHO ──
+                if (side == 1 && rightSlots != null && rightSlots.length > 0) {
+                    for (int i = 0; i < rightSlots.length; i++) {
+                        if (rightSlots[i] == null) {
+                            rightSlots[i] = token;
+                            placed = true;
+                            break;
+                        }
+                    }
+                    if (!placed) {
+                        java.util.Arrays.fill(rightSlots, null);
+                        rightSlots[0] = token;
+                        placed = true;
+                    }
+                }
+
+                // ── ACTUALIZAR UI Y VIEWMODEL ──
+                if (placed) {
+                    updateBalanceDisplay(ex);
+                    // Reconstruimos la lista para mandar a evaluar
+                    List<String> currentTokens = new ArrayList<>();
+                    if (leftSlots != null)  for (String s : leftSlots)  if (s != null) currentTokens.add(s);
+                    if (rightSlots != null) for (String s : rightSlots) if (s != null) currentTokens.add(s);
+                    viewModel.evaluateBalanceRealTime(currentTokens);
+                }
+
                 zone.setBackgroundResource(R.drawable.bg_drop_zone);
                 return true;
             case DragEvent.ACTION_DRAG_ENDED:

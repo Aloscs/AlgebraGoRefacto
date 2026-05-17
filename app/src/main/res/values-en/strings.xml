@@ -17,7 +17,7 @@
     <string name="progress_title">Progress</string>
     <string name="achievements_title">Achievements</string>
     <string name="explanation_title">Explanation</string>
-    <string name="exercise_instruction_balance">Drag the correct numbers to the scale spaces</string>
+    <string name="exercise_instruction_balance">Press and hold and drag the correct numbers to the spaces on the scale. To change one, click on it.</string>
     <string name="exercise_instruction_complete">Select the option that correctly completes the equation</string>
     <string name="loading_error">Could not load resource. Check your storage.</string>
     <string name="score_title">Total Score</string>

@@ -74,7 +74,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_equation"
-                    android:textColor="?attr/colorTextoPersonalizado"
+                    android:textColor="@color/neo_black"
                     android:fontFamily="monospace"
                     android:textStyle="bold" />
 
@@ -107,15 +107,14 @@
                     android:id="@+id/tv_right_pan_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/text_equation"
-                    android:textColor="@color/neo_black"
                     android:fontFamily="monospace"
+                    android:textColor="@color/neo_black"
+                    android:textSize="@dimen/text_equation"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/drop_here"
                     android:textSize="@dimen/text_xsmall"
                     android:layout_marginTop="@dimen/margin_small"
                     android:textColor="@color/text_gray" />

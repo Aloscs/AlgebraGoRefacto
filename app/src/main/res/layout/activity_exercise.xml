@@ -232,7 +232,7 @@
                 android:textColor="?attr/colorTextoPersonalizado"
                 android:textSize="@dimen/text_toolbar"
                 android:textStyle="bold"
-                app:backgroundTint="@color/neo_green"
+                app:backgroundTint="@color/neo_purple"
                 app:cornerRadius="@dimen/neo_button_radius"
                 app:strokeColor="@color/neo_black"
                 app:strokeWidth="@dimen/neo_stroke_width" />
@@ -247,7 +247,7 @@
                 android:textSize="@dimen/text_toolbar"
                 android:textStyle="bold"
                 android:textColor="?attr/colorTextoPersonalizado"
-                app:backgroundTint="@color/neo_pink"
+                app:backgroundTint="@color/neo_yellow"
                 app:strokeColor="@color/neo_black"
                 app:strokeWidth="@dimen/neo_stroke_width"
                 app:cornerRadius="@dimen/neo_button_radius"

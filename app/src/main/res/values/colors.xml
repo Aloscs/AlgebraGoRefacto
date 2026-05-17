@@ -8,7 +8,7 @@
     <color name="gray_ultra_light">#F2F2F2</color>
     <color name="correct_bg">#9DE09A</color>
     <color name="incorrect_bg">#DB5555</color>
-    <color name="drag_zone_border">#999999</color>
+    <color name="drag_zone_border">#ABABAB</color>
     <color name="progress_track">#E0E0E0</color>
     <color name="score_bar_bg">#000000</color>
     <color name="divider">#DDDDDD</color>
