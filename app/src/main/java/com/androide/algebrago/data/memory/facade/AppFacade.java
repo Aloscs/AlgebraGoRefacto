@@ -100,57 +100,198 @@ public class AppFacade {
     // ── Private helpers ───────────────────────────────────────────────────────
 
     private List<Block> buildAllBlocks() {
+
         List<Block> list = new ArrayList<>();
 
-        // Block 1
+        // ── Block 1 ─────────────────────────────────────────────────────────
+
         List<Level> b1Levels = new ArrayList<>();
-        b1Levels.add(new Level(11, 1, "Nivel 1", "Ecuaciones básicas de una incógnita",
-                ExerciseFactory.createBlock1Level1Exercises()));
-        b1Levels.add(new Level(12, 1, "Nivel 2", "Ecuaciones con multiplicación y división",
-                ExerciseFactory.createBlock1Level1Exercises())); // reuse, factory can vary
-        b1Levels.add(new Level(13, 1, "Nivel 3", "Combinación suma/resta/mult",
-                ExerciseFactory.createBlock1Level1Exercises()));
-        list.add(new Block(1, "Ecuaciones Simples", "Ecuaciones de primer grado básicas", b1Levels));
 
-        // Block 2
+        List<Exercise> b1Exercises =
+                ExerciseFactory.createBlock1Level1Exercises();
+
+        b1Levels.add(new Level(
+                11,
+                1,
+                "Nivel 1",
+                "Ecuaciones básicas de una incógnita",
+                ExerciseFactory.sliceLevel(b1Exercises, 0, 5)
+        ));
+
+        b1Levels.add(new Level(
+                12,
+                1,
+                "Nivel 2",
+                "Ecuaciones con multiplicación y división",
+                ExerciseFactory.sliceLevel(b1Exercises, 5, 10)
+        ));
+
+        b1Levels.add(new Level(
+                13,
+                1,
+                "Nivel 3",
+                "Combinación suma/resta/mult",
+                ExerciseFactory.sliceLevel(b1Exercises, 10, 15)
+        ));
+
+        list.add(new Block(
+                1,
+                "Ecuaciones Simples",
+                "Ecuaciones de primer grado básicas",
+                b1Levels
+        ));
+
+        // ── Block 2 ─────────────────────────────────────────────────────────
+
         List<Level> b2Levels = new ArrayList<>();
-        b2Levels.add(new Level(21, 2, "Nivel 1", "Verificar solución en dos variables",
-                ExerciseFactory.createBlock2Level1Exercises()));
-        b2Levels.add(new Level(22, 2, "Nivel 2", "Despejar una variable dada la otra",
-                ExerciseFactory.createBlock2Level1Exercises()));
-        b2Levels.add(new Level(23, 2, "Nivel 3", "Combinaciones con coeficientes",
-                ExerciseFactory.createBlock2Level1Exercises()));
-        list.add(new Block(2, "Dos Variables", "Ecuaciones con x e y", b2Levels));
 
-        // Block 3
+        List<Exercise> b2Exercises =
+                ExerciseFactory.createBlock2Level1Exercises();
+
+        b2Levels.add(new Level(
+                21,
+                2,
+                "Nivel 1",
+                "Verificar solución en dos variables",
+                ExerciseFactory.sliceLevel(b2Exercises, 0, 5)
+        ));
+
+        b2Levels.add(new Level(
+                22,
+                2,
+                "Nivel 2",
+                "Despejar una variable dada la otra",
+                ExerciseFactory.sliceLevel(b2Exercises, 5, 10)
+        ));
+
+        b2Levels.add(new Level(
+                23,
+                2,
+                "Nivel 3",
+                "Combinaciones con coeficientes",
+                ExerciseFactory.sliceLevel(b2Exercises, 10, 15)
+        ));
+
+        list.add(new Block(
+                2,
+                "Dos Variables",
+                "Ecuaciones con x e y",
+                b2Levels
+        ));
+
+        // ── Block 3 ─────────────────────────────────────────────────────────
+
         List<Level> b3Levels = new ArrayList<>();
-        b3Levels.add(new Level(31, 3, "Nivel 1", "Ecuaciones con paréntesis simples",
-                ExerciseFactory.createBlock3Level1Exercises()));
-        b3Levels.add(new Level(32, 3, "Nivel 2", "Doble distribución",
-                ExerciseFactory.createBlock3Level1Exercises()));
-        b3Levels.add(new Level(33, 3, "Nivel 3", "Paréntesis anidados",
-                ExerciseFactory.createBlock3Level1Exercises()));
-        list.add(new Block(3, "Paréntesis", "Distributividad y agrupación", b3Levels));
 
-        // Block 4
+        List<Exercise> b3Exercises =
+                ExerciseFactory.createBlock3Level1Exercises();
+
+        b3Levels.add(new Level(
+                31,
+                3,
+                "Nivel 1",
+                "Ecuaciones con paréntesis simples",
+                ExerciseFactory.sliceLevel(b3Exercises, 0, 5)
+        ));
+
+        b3Levels.add(new Level(
+                32,
+                3,
+                "Nivel 2",
+                "Doble distribución",
+                ExerciseFactory.sliceLevel(b3Exercises, 5, 10)
+        ));
+
+        b3Levels.add(new Level(
+                33,
+                3,
+                "Nivel 3",
+                "Paréntesis anidados",
+                ExerciseFactory.sliceLevel(b3Exercises, 10, 15)
+        ));
+
+        list.add(new Block(
+                3,
+                "Paréntesis",
+                "Distributividad y agrupación",
+                b3Levels
+        ));
+
+        // ── Block 4 ─────────────────────────────────────────────────────────
+
         List<Level> b4Levels = new ArrayList<>();
-        b4Levels.add(new Level(41, 4, "Nivel 1", "Fracciones simples",
-                ExerciseFactory.createBlock4Level1Exercises()));
-        b4Levels.add(new Level(42, 4, "Nivel 2", "MCM y eliminación de denominadores",
-                ExerciseFactory.createBlock4Level1Exercises()));
-        b4Levels.add(new Level(43, 4, "Nivel 3", "Fracciones combinadas",
-                ExerciseFactory.createBlock4Level1Exercises()));
-        list.add(new Block(4, "Fracciones", "Ecuaciones con coeficientes fraccionarios", b4Levels));
 
-        // Block 5
+        List<Exercise> b4Exercises =
+                ExerciseFactory.createBlock4Level1Exercises();
+
+        b4Levels.add(new Level(
+                41,
+                4,
+                "Nivel 1",
+                "Fracciones simples",
+                ExerciseFactory.sliceLevel(b4Exercises, 0, 5)
+        ));
+
+        b4Levels.add(new Level(
+                42,
+                4,
+                "Nivel 2",
+                "MCM y eliminación de denominadores",
+                ExerciseFactory.sliceLevel(b4Exercises, 5, 10)
+        ));
+
+        b4Levels.add(new Level(
+                43,
+                4,
+                "Nivel 3",
+                "Fracciones combinadas",
+                ExerciseFactory.sliceLevel(b4Exercises, 10, 15)
+        ));
+
+        list.add(new Block(
+                4,
+                "Fracciones",
+                "Ecuaciones con coeficientes fraccionarios",
+                b4Levels
+        ));
+
+        // ── Block 5 ─────────────────────────────────────────────────────────
+
         List<Level> b5Levels = new ArrayList<>();
-        b5Levels.add(new Level(51, 5, "Nivel 1", "Ecuaciones multinomiales",
-                ExerciseFactory.createBlock5Level1Exercises()));
-        b5Levels.add(new Level(52, 5, "Nivel 2", "Combinaciones avanzadas",
-                ExerciseFactory.createBlock5Level1Exercises()));
-        b5Levels.add(new Level(53, 5, "Nivel 3", "Ecuaciones complejas",
-                ExerciseFactory.createBlock5Level1Exercises()));
-        list.add(new Block(5, "Combinadas", "Ecuaciones con múltiples operaciones", b5Levels));
+
+        List<Exercise> b5Exercises =
+                ExerciseFactory.createBlock5Level1Exercises();
+
+        b5Levels.add(new Level(
+                51,
+                5,
+                "Nivel 1",
+                "Ecuaciones multinomiales",
+                ExerciseFactory.sliceLevel(b5Exercises, 0, 5)
+        ));
+
+        b5Levels.add(new Level(
+                52,
+                5,
+                "Nivel 2",
+                "Combinaciones avanzadas",
+                ExerciseFactory.sliceLevel(b5Exercises, 5, 10)
+        ));
+
+        b5Levels.add(new Level(
+                53,
+                5,
+                "Nivel 3",
+                "Ecuaciones complejas",
+                ExerciseFactory.sliceLevel(b5Exercises, 10, 15)
+        ));
+
+        list.add(new Block(
+                5,
+                "Combinadas",
+                "Ecuaciones con múltiples operaciones",
+                b5Levels
+        ));
 
         return list;
     }

@@ -502,6 +502,19 @@ public class ExerciseFactory {
 
         return e;
     }
+    public static List<Exercise> sliceLevel(List<Exercise> all, int start, int end) {
+
+        List<Exercise> result = new ArrayList<>();
+
+        int safeEnd = Math.min(end, all.size());
+
+        for (int i = start; i < safeEnd; i++) {
+
+            result.add(all.get(i).clone());
+        }
+
+        return result;
+    }
 
     /**
      * Convierte los Strings crudos del Factory en una estructura matemática (List<Term>).
