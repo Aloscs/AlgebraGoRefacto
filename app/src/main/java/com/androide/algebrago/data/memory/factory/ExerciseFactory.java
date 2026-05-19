@@ -5,6 +5,7 @@ import com.androide.algebrago.domain.models.Exercise;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Collections;
 import com.androide.algebrago.domain.models.Term;
 
 /**
@@ -473,10 +474,14 @@ public class ExerciseFactory {
                                          List<String> options, List<String> correct,
                                          String hint, String explanation,
                                          int levelId, int blockId, int points) {
-        // Pasamos null para las listas de términos, tu constructor ya sabe manejarlo
+
+        List<String> shuffledOptions = new ArrayList<>(options);
+        Collections.shuffle(shuffledOptions);
+
         Exercise e = new Exercise(id, display, full, null, null,
-                options, correct, hint, explanation,
+                shuffledOptions, correct, hint, explanation,
                 Exercise.ExerciseType.COMPLETE_EQUATION, points, levelId, blockId);
+
         return e;
     }
 
@@ -485,13 +490,16 @@ public class ExerciseFactory {
                                         String hint, String explanation,
                                         int levelId, int blockId, int points) {
 
-        // 🟢 Convertimos el texto a la nueva estructura matemática
         List<Term> leftTerms = stringToTerms(left);
         List<Term> rightTerms = stringToTerms(right);
 
+        List<String> shuffledOptions = new ArrayList<>(options);
+        Collections.shuffle(shuffledOptions);
+
         Exercise e = new Exercise(id, null, full, leftTerms, rightTerms,
-                options, correct, hint, explanation,
+                shuffledOptions, correct, hint, explanation,
                 Exercise.ExerciseType.BALANCE_SCALE, points, levelId, blockId);
+
         return e;
     }
 
