@@ -127,19 +127,35 @@ public class ExerciseViewModel extends AndroidViewModel {
         stateManager.transitionToExercising();
 
         repository.loadExercisesForLevel(blockId, levelId, new MutableLiveData<List<Exercise>>() {
+
             @Override
             public void postValue(List<Exercise> value) {
-                if (value == null || value.isEmpty()) {
-                    // Fallback: obtener ejercicios del AppFacade (en memoria)
+
+                if (value == null || value.size() < 5) {
+
                     value = facade.getExercisesForLevel(blockId, levelId);
                 }
-                exercises.postValue(value);
+
+                List<Exercise> limitedExercises = new ArrayList<>();
+
+                int limit = Math.min(5, value.size());
+
+                for (int i = 0; i < limit; i++) {
+
+                    limitedExercises.add(value.get(i).clone());
+                }
+
+                exercises.postValue(limitedExercises);
+
                 isLoading.postValue(false);
 
-                if (value != null && !value.isEmpty()) {
+                if (!limitedExercises.isEmpty()) {
+
                     currentIndex = 0;
+
                     firstAttempt = true;
-                    currentExercise.postValue(value.get(0));
+
+                    currentExercise.postValue(limitedExercises.get(0));
                 }
             }
         });
@@ -352,13 +368,13 @@ public class ExerciseViewModel extends AndroidViewModel {
     @Override
     protected void onCleared() {
         super.onCleared();
-        // Limpiar referencias a listas pesadas
-        if (exercises.getValue() != null) {
-            exercises.getValue().clear();
-        }
-        // Restablecer los LiveData para que no mantengan estados viejos si se vuelve a abrir
+
         currentExercise.setValue(null);
+
         answerResult.setValue(AnswerResult.NONE);
+
         sessionComplete.setValue(false);
+
+        sessionResults.clear();
     }
 }

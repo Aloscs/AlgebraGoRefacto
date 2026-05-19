@@ -66,8 +66,13 @@ public class Exercise implements Cloneable {
     public Exercise clone() {
         try {
             Exercise copy = (Exercise) super.clone();
+
             copy.options = new ArrayList<>(this.options);
             copy.correctValues = new ArrayList<>(this.correctValues);
+
+            copy.leftSideTerms = new ArrayList<>(this.leftSideTerms);
+            copy.rightSideTerms = new ArrayList<>(this.rightSideTerms);
+
             return copy;
         } catch (CloneNotSupportedException e) {
             throw new RuntimeException("Cannot clone Exercise", e);
