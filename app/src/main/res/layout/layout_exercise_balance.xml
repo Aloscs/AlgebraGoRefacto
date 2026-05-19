@@ -127,19 +127,31 @@
 
     <HorizontalScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="94dp"
         android:paddingHorizontal="@dimen/margin_medium"
         android:paddingTop="@dimen/margin_medium"
         android:paddingBottom="@dimen/margin_small"
         android:scrollbars="none">
 
+
         <LinearLayout
             android:id="@+id/layout_balance_options"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal" />
+
 
     </HorizontalScrollView>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/blocks_swipe_hint"
+        android:textAlignment="center"
+        android:textColor="@color/text_gray"
+        android:textSize="14sp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="sans-serif-medium" />
 </LinearLayout>

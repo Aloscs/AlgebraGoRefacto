@@ -60,7 +60,7 @@
     <string name="btn_start_exercise_caps">¡EMPEZAR EJERCICIO!</string>
     <string name="feedback_results_title">Resultados</string>
     <string name="feedback_subtitle">Revisa tus respuestas</string>
-    <string name="feedback_exercise_count">15 ejercicios</string>
+    <string name="feedback_exercise_count">5 ejercicios</string>
     <string name="btn_view_score">Ver Puntaje</string>
     <string name="main_score_default">Puntaje: 120</string>
     <string name="settings_title">Configuración</string>
@@ -101,6 +101,11 @@
     <string name="signo_admiracion">!</string>
     <string name="texto_logro_desbloqueado">" 🏆¡Logro desbloqueado: "</string>
     <string name="texto_boton_hint">Entendido</string>
+    <string name="cuadro_rojo_bloque">📖</string>
+    <string name="ver_explicacion">👉 Ver explicación</string>
+
+
+
 
 
 

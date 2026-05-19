@@ -26,7 +26,7 @@ public class ExerciseFactory {
         List<Exercise> list = new ArrayList<>();
 
         // E1: x + 2 = 5  →  x = 3
-        list.add(makeComplete(1, "? + 2 = 5", "x + 2 = 5",
+        list.add(makeComplete(1, "x + 2 = 5", "x + 2 = 5",
                 Arrays.asList("x=3", "x=7", "x=1", "x=4"),
                 Arrays.asList("x=3"),
                 "Piensa: ¿qué número más 2 da 5? Aplica la misma operación a ambos lados.",
@@ -34,7 +34,7 @@ public class ExerciseFactory {
                 1, 1, 100));
 
         // E2: x - 4 = 6  →  x = 10
-        list.add(makeComplete(2, "? - 4 = 6", "x - 4 = 6",
+        list.add(makeComplete(2, "x - 4 = 6", "x - 4 = 6",
                 Arrays.asList("x=10", "x=2", "x=8", "x=6"),
                 Arrays.asList("x=10"),
                 "Necesitas cancelar el -4 del lado izquierdo. ¿Qué operación cancela una resta?",
@@ -42,7 +42,7 @@ public class ExerciseFactory {
                 2, 1, 100));
 
         // E3: 3x = 12  →  x = 4
-        list.add(makeComplete(3, "3? = 12", "3x = 12",
+        list.add(makeComplete(3, "3x = 12", "3x = 12",
                 Arrays.asList("x=4", "x=3", "x=9", "x=6"),
                 Arrays.asList("x=4"),
                 "La x está siendo multiplicada por 3. ¿Qué operación es inversa a multiplicar?",
@@ -50,7 +50,7 @@ public class ExerciseFactory {
                 3, 1, 100));
 
         // E4: x/2 = 7  →  x = 14
-        list.add(makeComplete(4, "?/2 = 7", "x/2 = 7",
+        list.add(makeComplete(4, "x/2 = 7", "x/2 = 7",
                 Arrays.asList("x=14", "x=5", "x=9", "x=3"),
                 Arrays.asList("x=14"),
                 "La x está dividida entre 2. Multiplica ambos lados por el mismo número para despejarla.",
@@ -61,7 +61,7 @@ public class ExerciseFactory {
         list.add(makeBalance(5, "? + 8", "15", "x + 8 = 15",
                 Arrays.asList("7","3","9","5","1","2"),
                 Arrays.asList("7"),
-                "Observa el lado derecho. ¿Qué debe ocupar el espacio vacío para que ambos lados sean iguales?",
+                "Observa el lado derecho. ¿Qué debe ocupar el espacio vacío para que ambos lados sean iguale",
                 "Restamos 8 a ambos lados: x = 15 - 8 = 7",
                 5, 1, 100));
 
@@ -74,7 +74,7 @@ public class ExerciseFactory {
                 6, 1, 100));
 
         // E7: x - 3 = 9  →  x = 12
-        list.add(makeComplete(7, "? - 3 = 9", "x - 3 = 9",
+        list.add(makeComplete(7, "x - 3 = 9", "x - 3 = 9",
                 Arrays.asList("x=12", "x=6", "x=4", "x=9"),
                 Arrays.asList("x=12"),
                 "Traslada el -3 al otro lado cambiando su signo.",
@@ -90,7 +90,7 @@ public class ExerciseFactory {
                 8, 1, 100));
 
         // E9: x + 11 = 20  →  x = 9
-        list.add(makeComplete(9, "? + 11 = 20", "x + 11 = 20",
+        list.add(makeComplete(9, "x + 11 = 20", "x + 11 = 20",
                 Arrays.asList("x=9", "x=31", "x=8", "x=10"),
                 Arrays.asList("x=9"),
                 "Resta 11 a ambos lados para aislar la x.",
@@ -106,7 +106,7 @@ public class ExerciseFactory {
                 10, 1, 100));
 
         // E11: 5x = 35  →  x = 7
-        list.add(makeComplete(11, "5? = 35", "5x = 35",
+        list.add(makeComplete(11, "5x = 35", "5x = 35",
                 Arrays.asList("x=7", "x=5", "x=6", "x=8"),
                 Arrays.asList("x=7"),
                 "Divide 35 entre 5 para encontrar el valor de x.",
@@ -122,7 +122,7 @@ public class ExerciseFactory {
                 12, 1, 100));
 
         // E13: 2x + 1 = 9  →  x = 4
-        list.add(makeComplete(13, "2? + 1 = 9", "2x + 1 = 9",
+        list.add(makeComplete(13, "2x + 1 = 9", "2x + 1 = 9",
                 Arrays.asList("x=4", "x=5", "x=3", "x=8"),
                 Arrays.asList("x=4"),
                 "Primero resta 1 a ambos lados para simplificar la ecuación.",
@@ -138,7 +138,7 @@ public class ExerciseFactory {
                 14, 1, 100));
 
         // E15: x/4 + 1 = 4  →  x = 12
-        list.add(makeComplete(15, "?/4 + 1 = 4", "x/4 + 1 = 4",
+        list.add(makeComplete(15, "x/4 + 1 = 4", "x/4 + 1 = 4",
                 Arrays.asList("x=12", "x=8", "x=20", "x=4"),
                 Arrays.asList("x=12"),
                 "Resta 1 a ambos lados y luego multiplica por 4.",
@@ -154,7 +154,7 @@ public class ExerciseFactory {
         List<Exercise> list = new ArrayList<>();
 
         // E1: x + 5y = 11, x=1, y=2
-        list.add(makeComplete(101, "? + 5·? = 11", "x + 5y = 11",
+        list.add(makeComplete(101, "x + 5·y = 11", "x + 5y = 11",
                 Arrays.asList("x=1,y=2", "x=3,y=9", "x=6,y=1", "x=2,y=3"),
                 Arrays.asList("x=1,y=2"),
                 "Sustituye cada opción: 1 + 5(2) = 1+10 = 11. ¿Cuál cumple la igualdad?",
@@ -170,7 +170,7 @@ public class ExerciseFactory {
                 1, 2, 120));
 
         // E3: x + y = 5, x=2, y=3
-        list.add(makeComplete(103, "? + ? = 5", "x + y = 5",
+        list.add(makeComplete(103, "x + y = 5", "x + y = 5",
                 Arrays.asList("x=2,y=3", "x=4,y=2", "x=1,y=5", "x=3,y=3"),
                 Arrays.asList("x=2,y=3"),
                 "Busca la pareja de números que al sumar den exactamente 5.",
@@ -186,7 +186,7 @@ public class ExerciseFactory {
                 2, 2, 120));
 
         // E5: x + 2y = 10, x=4, y=3
-        list.add(makeComplete(105, "? + 2·? = 10", "x + 2y = 10",
+        list.add(makeComplete(105, "x + 2·y = 10", "x + 2y = 10",
                 Arrays.asList("x=4,y=3", "x=6,y=2", "x=2,y=4", "x=1,y=3"),
                 Arrays.asList("x=4,y=3"),
                 "Prueba x=4: 4 + 2y = 10 → 2y = 6 → y = 3.",
@@ -202,7 +202,7 @@ public class ExerciseFactory {
                 3, 2, 120));
 
         // E7–E15 (abbreviated, still algebraically correct)
-        list.add(makeComplete(107, "? - ? = 1", "x - y = 1",
+        list.add(makeComplete(107, "x - y = 1", "x - y = 1",
                 Arrays.asList("x=4,y=3", "x=3,y=3", "x=5,y=2", "x=2,y=2"),
                 Arrays.asList("x=4,y=3"),
                 "Busca dos números cuya diferencia sea 1.",
@@ -216,7 +216,7 @@ public class ExerciseFactory {
                 "4(3) - 2(2) = 12 - 4 = 8 ✓",
                 4, 2, 120));
 
-        list.add(makeComplete(109, "5·? + ? = 13", "5x + y = 13",
+        list.add(makeComplete(109, "5·x + y = 13", "5x + y = 13",
                 Arrays.asList("x=2,y=3", "x=1,y=8", "x=3,y=2", "x=2,y=5"),
                 Arrays.asList("x=2,y=3"),
                 "Si x=2: 10+y=13 → y=3.",
@@ -230,35 +230,35 @@ public class ExerciseFactory {
                 "1 + 4(2) = 1 + 8 = 9 ✓",
                 5, 2, 120));
 
-        list.add(makeComplete(111, "3·? - 2·? = 5", "3x - 2y = 5",
+        list.add(makeComplete(111, "3·x - 2·y = 5", "3x - 2y = 5",
                 Arrays.asList("x=3,y=2", "x=2,y=3", "x=1,y=1", "x=4,y=2"),
                 Arrays.asList("x=3,y=2"),
                 "Prueba x=3: 9 - 2y = 5 → 2y = 4 → y = 2.",
                 "3(3)-2(2) = 9-4 = 5 ✓",
                 6, 2, 120));
 
-        list.add(makeBalance(112, "2·? + 5·?", "11", "2x + 5y = 11",
+        list.add(makeBalance(112, "2·?+ 5·?", "11", "2x + 5y = 11",
                 Arrays.asList("3","1","2","4","5","6"),
                 Arrays.asList("3","1"),
                 "Prueba x=3: 6+5y=11 → 5y=5 → y=1.",
                 "2(3)+5(1)=6+5=11 ✓",
                 6, 2, 120));
 
-        list.add(makeComplete(113, "? + ? = 7", "x + y = 7",
+        list.add(makeComplete(113, "x + y = 7", "x + y = 7",
                 Arrays.asList("x=5,y=2", "x=3,y=3", "x=4,y=4", "x=6,y=2"),
                 Arrays.asList("x=5,y=2"),
                 "Busca la pareja correcta que sume 7.",
                 "5+2=7 ✓",
                 7, 2, 120));
 
-        list.add(makeBalance(114, "6·? - 4·?", "10", "6x - 4y = 10",
+        list.add(makeBalance(114, "6·?- 4·?", "10", "6x - 4y = 10",
                 Arrays.asList("3","2","4","1","5","6"),
                 Arrays.asList("3","2"),
                 "x=3: 18-4y=10 → 4y=8 → y=2.",
                 "6(3)-4(2)=18-8=10 ✓",
                 7, 2, 120));
 
-        list.add(makeComplete(115, "? + 3·? = 13", "x + 3y = 13",
+        list.add(makeComplete(115, "x + 3·y = 13", "x + 3y = 13",
                 Arrays.asList("x=4,y=3", "x=1,y=4", "x=7,y=2", "x=2,y=4"),
                 Arrays.asList("x=4,y=3"),
                 "Si y=3: x+9=13 → x=4.",
@@ -274,7 +274,7 @@ public class ExerciseFactory {
         List<Exercise> list = new ArrayList<>();
 
         // E1: 2(x+3) = 10  →  x = 2
-        list.add(makeComplete(201, "2(? + 3) = 10", "2(x+3)=10",
+        list.add(makeComplete(201, "2(x + 3) = 10", "2(x+3)=10",
                 Arrays.asList("x=2", "x=5", "x=3", "x=7"),
                 Arrays.asList("x=2"),
                 "Primero aplica la propiedad distributiva: 2·x + 2·3. Después simplifica.",
@@ -290,7 +290,7 @@ public class ExerciseFactory {
                 1, 3, 150));
 
         // E3: 2(x+4) = 14  →  x = 3
-        list.add(makeComplete(203, "2(? + 4) = 14", "2(x+4)=14",
+        list.add(makeComplete(203, "2(x + 4) = 14", "2(x+4)=14",
                 Arrays.asList("x=3", "x=5", "x=1", "x=9"),
                 Arrays.asList("x=3"),
                 "Distribuye primero: 2x+8=14.",
@@ -306,7 +306,7 @@ public class ExerciseFactory {
                 2, 3, 150));
 
         // E5: 5(x+1) = 20  →  x = 3
-        list.add(makeComplete(205, "5(? + 1) = 20", "5(x+1)=20",
+        list.add(makeComplete(205, "5(x + 1) = 20", "5(x+1)=20",
                 Arrays.asList("x=3", "x=4", "x=2", "x=5"),
                 Arrays.asList("x=3"),
                 "5x+5=20. Resta 5 a ambos lados.",
@@ -324,7 +324,7 @@ public class ExerciseFactory {
         // Additional exercises E7–E15 for block 3
         for (int i = 7; i <= 15; i++) {
             int base = i + 1;
-            list.add(makeComplete(200 + i, base + "(? + 1) = " + (base * (i - 3)),
+            list.add(makeComplete(200 + i, base + "(x + 1) = " + (base * (i - 3)),
                     base + "(x+1)=" + (base * (i - 3)),
                     Arrays.asList("x=" + (i - 4), "x=" + i, "x=" + (i - 2), "x=" + (i + 1)),
                     Arrays.asList("x=" + (i - 4)),
@@ -342,7 +342,7 @@ public class ExerciseFactory {
         List<Exercise> list = new ArrayList<>();
 
         // E1: (5/6)x - 3/4 = 2 + (7/8)x  (adapted from Baldor)
-        list.add(makeComplete(301, "(5/6)? - 3/4 = 2 + (7/8)?",
+        list.add(makeComplete(301, "(5/6)x - 3/4 = 2 + (7/8)x",
                 "(5/6)x - 3/4 = 2 + (7/8)x",
                 Arrays.asList("x=-21", "x=21", "x=14", "x=-14"),
                 Arrays.asList("x=-21"),
@@ -359,7 +359,7 @@ public class ExerciseFactory {
                 1, 4, 200));
 
         // E3: x/3 - x/6 = 2  →  x=12
-        list.add(makeComplete(303, "?/3 - ?/6 = 2", "x/3 - x/6 = 2",
+        list.add(makeComplete(303, "x/3 - x/6 = 2", "x/3 - x/6 = 2",
                 Arrays.asList("x=12", "x=6", "x=3", "x=18"),
                 Arrays.asList("x=12"),
                 "MCM(3,6)=6. Multiplica por 6: 2x - x = 12.",
@@ -421,37 +421,37 @@ public class ExerciseFactory {
 
         // Further combined exercises
         String[][] combined = {
-            {"3?+2?=12+?", "3x+2y=12+y", "x=2,y=3", "x=3,y=2", "x=1,y=5", "x=4,y=1", "x=2,y=3",
+            {"3x+2y=12+y", "3x+2y=12+y", "x=2,y=3", "x=3,y=2", "x=1,y=5", "x=4,y=1", "x=2,y=3",
              "Traslada y al lado izquierdo: 3x+y=12.", "3(2)+3=9≠12. Ajusta: 3x+y=12 con x=3,y=3: 12 ✓"},
-            {"2(?+3)=3?-1", "2(x+3)=3x-1", "x=7", "x=5", "x=3", "x=9", "x=7",
+            {"2(x+3)=3x-1", "2(x+3)=3x-1", "x=7", "x=5", "x=3", "x=9", "x=7",
              "Distribuye: 2x+6=3x-1. Traslada términos.", "2x+6=3x-1 → 7=x"},
-            {"5?-2(?+1)=13", "5x-2(x+1)=13", "x=5", "x=3", "x=7", "x=4", "x=5",
+            {"5x-2(x+1)=13", "5x-2(x+1)=13", "x=5", "x=3", "x=7", "x=4", "x=5",
              "Distribuye -2: 5x-2x-2=13 → 3x=15.", "x=5"},
-            {"4(?-1)+2=10", "4(x-1)+2=10", "x=3", "x=4", "x=2", "x=5", "x=3",
+            {"4(x-1)+2=10", "4(x-1)+2=10", "x=3", "x=4", "x=2", "x=5", "x=3",
              "4x-4+2=10 → 4x=12.", "x=3"},
-            {"3?+2(2?-1)=21", "3x+2(2x-1)=21", "x=3", "x=5", "x=2", "x=4", "x=3",
+            {"3x+2(2x-1)=21", "3x+2(2x-1)=21", "x=3", "x=5", "x=2", "x=4", "x=3",
              "Distribuye: 3x+4x-2=21 → 7x=23... ajusta con x=3: 7(3)=21+2=23? revisión.",
              "7x-2=21 → 7x=23. Corrección didáctica: x≈3. Usa x=3 como aproximación entera."},
-            {"2(?+4)-?=11", "2(x+4)-x=11", "x=3", "x=5", "x=2", "x=7", "x=3",
+            {"2(x+4)-x=11", "2(x+4)-x=11", "x=3", "x=5", "x=2", "x=7", "x=3",
              "2x+8-x=11 → x=3.", "x+8=11 → x=3 ✓"},
-            {"6?-3(?-2)=18", "6x-3(x-2)=18", "x=4", "x=2", "x=6", "x=3", "x=4",
+            {"6x-3(x-2)=18", "6x-3(x-2)=18", "x=4", "x=2", "x=6", "x=3", "x=4",
              "6x-3x+6=18 → 3x=12.", "x=4 ✓"},
-            {"4(?+2)=2(?+8)", "4(x+2)=2(x+8)", "x=4", "x=2", "x=6", "x=8", "x=4",
+            {"4(x+2)=2(x+8)", "4(x+2)=2(x+8)", "x=4", "x=2", "x=6", "x=8", "x=4",
              "4x+8=2x+16 → 2x=8.", "x=4 ✓"},
-            {"5(?-1)=2(?+4)", "5(x-1)=2(x+4)", "x=13/3", "x=3", "x=4", "x=5", "x=3",
+            {"5(x-1)=2(x+4)", "5(x-1)=2(x+4)", "x=13/3", "x=3", "x=4", "x=5", "x=3",
              "5x-5=2x+8 → 3x=13. Aproximación entera: x≈4.",
              "3x=13 → x≈4 (valor entero más cercano para práctica)"},
-            {"3(?+2)=?+10", "3(x+2)=x+10", "x=2", "x=4", "x=3", "x=1", "x=2",
+            {"3(x+2)=x+10", "3(x+2)=x+10", "x=2", "x=4", "x=3", "x=1", "x=2",
              "3x+6=x+10 → 2x=4.", "x=2 ✓"},
-            {"7?-2(3?-1)=9", "7x-2(3x-1)=9", "x=7", "x=3", "x=5", "x=9", "x=7",
+            {"7x-2(3x-1)=9", "7x-2(3x-1)=9", "x=7", "x=3", "x=5", "x=9", "x=7",
              "7x-6x+2=9 → x=7.", "x=7 ✓"},
-            {"4(?+3)-2=14", "4(x+3)-2=14", "x=1", "x=2", "x=3", "x=4", "x=1",
+            {"4(x+3)-2=14", "4(x+3)-2=14", "x=1", "x=2", "x=3", "x=4", "x=1",
              "4x+12-2=14 → 4x=4.", "x=1 ✓"},
-            {"2?+3(?-2)=14", "2x+3(x-2)=14", "x=4", "x=5", "x=3", "x=2", "x=4",
+            {"2x+3(x-2)=14", "2x+3(x-2)=14", "x=4", "x=5", "x=3", "x=2", "x=4",
              "2x+3x-6=14 → 5x=20.", "x=4 ✓"},
-            {"6(?-1)=4(?+1)", "6(x-1)=4(x+1)", "x=5", "x=3", "x=7", "x=4", "x=5",
+            {"6(x-1)=4(x+1)", "6(x-1)=4(x+1)", "x=5", "x=3", "x=7", "x=4", "x=5",
              "6x-6=4x+4 → 2x=10.", "x=5 ✓"},
-            {"3(2?-1)+?=16", "3(2x-1)+x=16", "x=19/7", "x=2", "x=3", "x=4", "x=2",
+            {"3(2x-1)+x=16", "3(2x-1)+x=16", "x=19/7", "x=2", "x=3", "x=4", "x=2",
              "6x-3+x=16 → 7x=19. Aprox: x≈3.",
              "7x=19 → x≈2.7; para práctica entera usamos x=3"},
         };

@@ -48,7 +48,7 @@
                 android:id="@+id/tv_block_icon"
                 android:layout_width="@dimen/block_icon_big_size"
                 android:layout_height="@dimen/block_icon_big_size"
-                android:text="@string/block_icon_default"
+                android:text="@string/cuadro_rojo_bloque"
                 android:textColor="@color/neo_black"
                 android:textSize="@dimen/text_block_icon"
                 android:textStyle="bold"

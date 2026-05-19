@@ -41,15 +41,6 @@
                 android:textColor="?attr/colorTextoPersonalizado"
                 android:textSize="@dimen/text_small"
                 android:textStyle="bold"/>
-
-            <TextView
-                android:layout_width="@dimen/achievement_close_size"
-                android:layout_height="@dimen/achievement_close_size"
-                android:text="@string/achievement_close_symbol"
-                android:textColor="?attr/colorTextoPersonalizado"
-                android:textSize="@dimen/text_medium"
-                android:textStyle="bold"
-                android:gravity="center"/>
         </LinearLayout>
 
         <!-- CONTENT -->
@@ -92,7 +83,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/achievement_status_unlocked"
-                    android:textColor="?attr/colorTextoPersonalizado"
+                    android:textColor="@color/neo_black"
                     android:textSize="@dimen/text_xsmall"
                     android:textStyle="bold"
                     android:layout_marginTop="@dimen/margin_xsmall"

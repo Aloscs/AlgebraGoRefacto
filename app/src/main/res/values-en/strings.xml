@@ -101,4 +101,6 @@
     <string name="signo_admiracion">!</string>
     <string name="texto_logro_desbloqueado">"🏆¡Achievement unlocked: "</string>
     <string name="texto_boton_hint">Ok</string>
+    <string name="cuadro_rojo_bloque">📖</string>
+    <string name="ver_explicacion">👉 See explanation</string>
 </resources>

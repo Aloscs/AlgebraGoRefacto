@@ -270,11 +270,10 @@ public class ExerciseActivity extends AppCompatActivity {
         String leftStr = viewModel.termsToString(ex.getLeftSideTerms());
         String rightStr = viewModel.termsToString(ex.getRightSideTerms());
 
-        tvLeftPan.setText(leftStr != null ? leftStr : "___");
-        tvRightPan.setText(rightStr != null ? rightStr : "___");
-
         leftSlots  = new String[countBlanks(leftStr)];
         rightSlots = new String[countBlanks(rightStr)];
+
+        updateBalanceDisplay(ex);
 
         if (balanceArmAssembly != null) balanceArmAssembly.setRotation(-10f);
         buildDragOptions(ex);
@@ -467,7 +466,7 @@ public class ExerciseActivity extends AppCompatActivity {
         int idx = 0;
         for (int i = 0; i < sb.length(); i++) {
             if (sb.charAt(i) == '?') {
-                String val = (slots != null && idx < slots.length && slots[idx] != null) ? slots[idx] : "_";
+                String val = (slots != null && idx < slots.length && slots[idx] != null) ? slots[idx] : "x";
                 sb.replace(i, i + 1, val);
                 i += val.length() - 1;
                 idx++;

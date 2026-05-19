@@ -7,6 +7,8 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.androide.algebrago.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,12 +70,12 @@ public class FeedbackViewModel extends AndroidViewModel {
         this.feedbackItems.setValue(itemsList);
 
         // Lógica de reintentos
-        if (retryCount < MAX_RETRIES) {
+       /* if (retryCount < MAX_RETRIES) {
             canRetry.setValue(true);
-            retryButtonText.setValue("Reintentar (" + (MAX_RETRIES - retryCount) + " restantes)");
+            retryButtonText.setValue(R.string.btn_retry);
         } else {
             canRetry.setValue(false);
-        }
+        }*/
     }
 
     // 4. Getters para la UI
