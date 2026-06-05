@@ -60,6 +60,12 @@ public class AchievementsActivity extends AppCompatActivity {
 
     @Override protected void onResume() { super.onResume(); viewModel.refresh(); }
 
+    /**
+     * Retorna el emoji representativo del tipo de logro para mostrarlo en la tarjeta.
+     *
+     * @param t tipo de logro.
+     * @return emoji como cadena de texto.
+     */
     private String iconForType(Achievement.AchievementType t) {
         switch (t) {
             case STREAK_CORRECT: return "⚡";

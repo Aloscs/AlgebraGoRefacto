@@ -10,21 +10,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * PATTERN: Observer
+ * PATRÓN: Observer
  *
- * AchievementManager actúa como OBSERVER del ScoreManager.
+ * {@code AchievementManager} actúa como OBSERVADOR del {@link ScoreManager}.
  *
  * Escucha:
- * - cambios de score
- * - cambios de streak
- * - niveles completados
- *
+ * <ul>
+ *   <li>cambios de puntuación</li>
+ *   <li>cambios de racha</li>
+ *   <li>niveles completados</li>
+ * </ul>
  * y decide cuándo desbloquear logros.
  *
- * Responsabilidad:
- * - Gestionar achievements
- * - Persistir achievements
- * - Desbloquear achievements
+ * Responsabilidades:
+ * <ul>
+ *   <li>Gestionar y evaluar el estado de los logros.</li>
+ *   <li>Persistir el estado de desbloqueo en {@link android.content.SharedPreferences}.</li>
+ *   <li>Exponer la lista de logros para la UI.</li>
+ * </ul>
  */
 public class AchievementManager implements ProgressObserver {
 
@@ -46,6 +49,12 @@ public class AchievementManager implements ProgressObserver {
     // Constructor
     // ─────────────────────────────────────────────────────────────────────────
 
+    /**
+     * Crea un nuevo {@code AchievementManager}, inicializa los logros por defecto
+     * y carga su estado de desbloqueo desde las preferencias.
+     *
+     * @param context contexto de la aplicación para acceder a SharedPreferences.
+     */
     public AchievementManager(Context context) {
 
         prefs = context.getApplicationContext()
@@ -219,6 +228,9 @@ public class AchievementManager implements ProgressObserver {
     // Public API
     // ─────────────────────────────────────────────────────────────────────────
 
+    /**
+     * @return lista de todos los logros con su estado de desbloqueo actual.
+     */
     public List<Achievement> getAchievements() {
 
         return achievements;

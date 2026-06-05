@@ -9,19 +9,25 @@ import java.util.Collections;
 import com.androide.algebrago.domain.models.Term;
 
 /**
- * PATTERN: Factory — creates Exercise objects for each level without
- *   the caller knowing construction details.
- * PATTERN: Prototype — each template Exercise is cloned before being
- *   handed out, so templates remain pristine and multiple sessions
- *   can run independently.
+ * PATRÓN: Factory — crea objetos {@link Exercise} para cada nivel sin que el
+ *   llamador conozca los detalles de construcción.
+ * PATRÓN: Prototype — cada ejercicio plantilla se clona antes de entregarse,
+ *   manteniendo las plantillas intactas para que múltiples sesiones puedan
+ *   ejecutarse de forma independiente.
  *
- * Exercises sourced from Álgebra de Baldor (A. Baldor, Algebra, Patria, 1941).
- * Equation types: simple, two-variable, combined ops, fractions, parentheses.
+ * Ejercicios extraídos de <em>Álgebra de Baldor</em> (A. Baldor, Patria, 1941).
+ * Tipos de ecuación: simples, dos variables, operaciones combinadas, fracciones y paréntesis.
  */
 public class ExerciseFactory {
 
     // ── Block 1 · Ecuaciones Simples de Primer Grado ──────────────────────────
 
+    /**
+     * Genera los ejercicios del Bloque 1: ecuaciones simples de primer grado.
+     * Incluye 15 ejercicios con suma, resta, multiplicación y división de una incógnita.
+     *
+     * @return lista de ejercicios para el Bloque 1.
+     */
     public static List<Exercise> createBlock1Level1Exercises() {
         List<Exercise> list = new ArrayList<>();
 
@@ -150,6 +156,12 @@ public class ExerciseFactory {
 
     // ── Block 2 · Ecuaciones con Dos Variables ────────────────────────────────
 
+    /**
+     * Genera los ejercicios del Bloque 2: ecuaciones con dos variables (x e y).
+     * El estudiante verifica si un par (x, y) satisface la ecuación.
+     *
+     * @return lista de ejercicios para el Bloque 2.
+     */
     public static List<Exercise> createBlock2Level1Exercises() {
         List<Exercise> list = new ArrayList<>();
 
@@ -270,6 +282,12 @@ public class ExerciseFactory {
 
     // ── Block 3 · Ecuaciones con Paréntesis ───────────────────────────────────
 
+    /**
+     * Genera los ejercicios del Bloque 3: ecuaciones con paréntesis.
+     * Aplica la propiedad distributiva para eliminar los paréntesis.
+     *
+     * @return lista de ejercicios para el Bloque 3.
+     */
     public static List<Exercise> createBlock3Level1Exercises() {
         List<Exercise> list = new ArrayList<>();
 
@@ -338,6 +356,12 @@ public class ExerciseFactory {
 
     // ── Block 4 · Ecuaciones con Fracciones ──────────────────────────────────
 
+    /**
+     * Genera los ejercicios del Bloque 4: ecuaciones con fracciones.
+     * El estudiante multiplica por el MCM para eliminar los denominadores.
+     *
+     * @return lista de ejercicios para el Bloque 4.
+     */
     public static List<Exercise> createBlock4Level1Exercises() {
         List<Exercise> list = new ArrayList<>();
 
@@ -408,6 +432,12 @@ public class ExerciseFactory {
 
     // ── Block 5 · Ecuaciones Combinadas (multinomial) ─────────────────────────
 
+    /**
+     * Genera los ejercicios del Bloque 5: ecuaciones combinadas con múltiples operaciones.
+     * Mezcla paréntesis, fracciones y varios términos en un solo ejercicio.
+     *
+     * @return lista de ejercicios para el Bloque 5.
+     */
     public static List<Exercise> createBlock5Level1Exercises() {
         List<Exercise> list = new ArrayList<>();
 
@@ -502,6 +532,15 @@ public class ExerciseFactory {
 
         return e;
     }
+    /**
+     * Extrae un subconjunto de ejercicios de una lista mayor y los devuelve clonados.
+     * Útil para dividir la lista completa de un bloque en niveles.
+     *
+     * @param all   lista completa de ejercicios del bloque.
+     * @param start índice inicial (inclusivo).
+     * @param end   índice final (exclusivo); se recorta al tamaño real de la lista.
+     * @return sublista de ejercicios clonados.
+     */
     public static List<Exercise> sliceLevel(List<Exercise> all, int start, int end) {
 
         List<Exercise> result = new ArrayList<>();

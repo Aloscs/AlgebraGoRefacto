@@ -18,6 +18,14 @@ public class Term {
     private TermType type;
     private String value;
 
+    /**
+     * Construye un término con identificador, tipo y valor.
+     *
+     * @param id    identificador único del término, útil en Drag &amp; Drop para distinguir
+     *              términos con el mismo valor (ej. dos "5" distintos).
+     * @param type  categoría del término ({@link TermType}).
+     * @param value representación textual del término (ej. "x", "5", "+").
+     */
     public Term(String id, TermType type, String value) {
         this.id = id;
         this.type = type;
@@ -26,12 +34,18 @@ public class Term {
 
     // ── Getters & Setters ──────────────────────────────────────────────────────
 
+    /** @return identificador único del término. */
     public String getId() { return id; }
+    /** @param id nuevo identificador. */
     public void setId(String id) { this.id = id; }
 
+    /** @return tipo del término. */
     public TermType getType() { return type; }
+    /** @param type nuevo tipo. */
     public void setType(TermType type) { this.type = type; }
 
+    /** @return valor textual del término. */
     public String getValue() { return value; }
+    /** @param value nuevo valor textual. */
     public void setValue(String value) { this.value = value; }
 }

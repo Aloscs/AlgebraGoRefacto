@@ -86,6 +86,12 @@ public class MainViewModel extends AndroidViewModel {
         });
     }
 
+    /**
+     * Busca un bloque por su identificador en la lista cargada.
+     *
+     * @param id ID del bloque a buscar.
+     * @return el {@link Block} correspondiente, o {@code null} si no está en la lista.
+     */
     public Block getBlockById(int id) {
         List<Block> currentBlocks = blocks.getValue();
         if (currentBlocks != null) {
@@ -96,6 +102,13 @@ public class MainViewModel extends AndroidViewModel {
         return null;
     }
 
+    /**
+     * Busca un nivel dentro de un bloque específico.
+     *
+     * @param blockId ID del bloque que contiene el nivel.
+     * @param levelId ID del nivel a buscar.
+     * @return el {@link Level} correspondiente, o {@code null} si no existe.
+     */
     public Level getLevelById(int blockId, int levelId) {
         Block b = getBlockById(blockId);
         if (b != null && b.getLevels() != null) {
@@ -107,6 +120,13 @@ public class MainViewModel extends AndroidViewModel {
     }
 
 
+    /**
+     * Construye el texto explicativo teórico para el bloque indicado.
+     * Se muestra en {@link com.androide.algebrago.feature.explanation.ExplanationActivity}.
+     *
+     * @param blockId ID del bloque (1–5).
+     * @return cadena con la explicación del tema algebraico del bloque.
+     */
     public String buildExplanation(int blockId) {
         switch (blockId) {
             case 1: return "Una ecuación de primer grado contiene una incógnita (x). El objetivo es "
@@ -125,6 +145,13 @@ public class MainViewModel extends AndroidViewModel {
         }
     }
 
+    /**
+     * Construye los pasos de resolución para el bloque indicado.
+     * Se muestra junto a la explicación en la pantalla de explicación.
+     *
+     * @param blockId ID del bloque (1–5).
+     * @return cadena numerada con los pasos de resolución del bloque.
+     */
     public String buildSteps(int blockId) {
         switch (blockId) {
             case 1: return "PASOS:\n① Identifica la operación de la incógnita.\n"
@@ -159,11 +186,15 @@ public class MainViewModel extends AndroidViewModel {
 
     // ── LiveData getters ──────────────────────────────────────────────────────
 
+    /** @return LiveData con la puntuación total actualizada en tiempo real. */
     public LiveData<Integer> getScore()                  { return score; }
+    /** @return LiveData con la lista de bloques y su progreso. */
     public LiveData<List<Block>> getBlocks()             { return blocks; }
+    /** @return LiveData con la lista de logros del estudiante. */
     public LiveData<List<Achievement>> getAchievements() { return achievements; }
 
     // ── Acciones ──────────────────────────────────────────────────────────────
 
+    /** @return referencia al {@link com.androide.algebrago.data.memory.facade.AppFacade} para acceso avanzado. */
     public AppFacade getFacade() { return facade; }
 }
