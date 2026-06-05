@@ -75,6 +75,11 @@ public class LiquidProgressView extends View {
         invalidate();
     }
 
+    /**
+     * Dibuja el círculo, el nivel de líquido animado y el porcentaje centrado.
+     *
+     * @param canvas lienzo proporcionado por el sistema para renderizar la vista.
+     */
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);

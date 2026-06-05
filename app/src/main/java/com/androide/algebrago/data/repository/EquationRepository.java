@@ -44,6 +44,12 @@ public class EquationRepository {
         historyDao = db.historyDao();
     }
 
+    /**
+     * Retorna la instancia única del repositorio.
+     *
+     * @param context contexto de aplicación para inicializar Room una sola vez.
+     * @return instancia singleton de {@link EquationRepository}.
+     */
     public static synchronized EquationRepository getInstance(Context context) {
         if (instance == null) instance = new EquationRepository(context);
         return instance;

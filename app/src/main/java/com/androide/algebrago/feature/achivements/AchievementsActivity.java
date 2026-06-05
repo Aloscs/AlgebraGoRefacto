@@ -24,6 +24,11 @@ public class AchievementsActivity extends AppCompatActivity {
     private MainViewModel viewModel;
     private LinearLayout llGrid;
 
+    /**
+     * Inicializa la pantalla de logros y sus observadores de datos.
+     *
+     * @param savedInstanceState estado previo de la actividad, si existe.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

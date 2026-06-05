@@ -70,6 +70,11 @@ public abstract class AppDatabase extends RoomDatabase {
                                     DB_NAME
                             )
                             .addCallback(new RoomDatabase.Callback() {
+                                /**
+                                 * Ejecuta el sembrado inicial de datos cuando la base se crea por primera vez.
+                                 *
+                                 * @param db conexión SQLite recién creada por Room.
+                                 */
                                 @Override
                                 public void onCreate(@NonNull SupportSQLiteDatabase db) {
                                     super.onCreate(db);

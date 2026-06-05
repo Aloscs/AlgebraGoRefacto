@@ -39,6 +39,11 @@ public class FeedbackActivity extends AppCompatActivity {
 
     private FeedbackViewModel viewModel;
 
+    /**
+     * Inicializa la pantalla de feedback y enlaza observadores con los datos procesados.
+     *
+     * @param savedInstanceState estado previo de la actividad, si existe.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

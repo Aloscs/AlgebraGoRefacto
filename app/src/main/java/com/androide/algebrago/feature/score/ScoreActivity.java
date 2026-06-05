@@ -19,6 +19,11 @@ public class ScoreActivity extends AppCompatActivity {
 
     public static final String EXTRA_SCORE = "extra_score";
 
+    /**
+     * Muestra el puntaje final recibido y configura el retorno a la pantalla principal.
+     *
+     * @param savedInstanceState estado previo de la actividad, si existe.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
