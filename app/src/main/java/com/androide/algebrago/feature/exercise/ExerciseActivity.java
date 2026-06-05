@@ -63,6 +63,11 @@ public class ExerciseActivity extends AppCompatActivity {
     private String[] leftSlots;
     private String[] rightSlots;
 
+    /**
+     * Inicializa la vista de ejercicios y dispara la carga inicial del nivel.
+     *
+     * @param savedInstanceState estado previo de la actividad, si existe.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

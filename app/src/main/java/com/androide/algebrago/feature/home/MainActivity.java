@@ -34,6 +34,11 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private configManager configMgr;
 
+    /**
+     * Inicializa la pantalla principal, configura tema/idioma y conecta observadores.
+     *
+     * @param savedInstanceState estado previo de la actividad, si existe.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         configMgr = new configManager(this);

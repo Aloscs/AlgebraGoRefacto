@@ -26,6 +26,11 @@ public class ProgressActivity extends AppCompatActivity {
     private MainViewModel viewModel;
     private LinearLayout llProgressBlocks;
 
+    /**
+     * Inicializa la vista de progreso y sus observadores de score y bloques.
+     *
+     * @param savedInstanceState estado previo de la actividad, si existe.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +71,9 @@ public class ProgressActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Refresca datos al volver al primer plano para mantener el progreso actualizado.
+     */
     @Override
     protected void onResume() {
         super.onResume();

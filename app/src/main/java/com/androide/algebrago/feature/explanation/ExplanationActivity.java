@@ -27,6 +27,11 @@ public class ExplanationActivity extends AppCompatActivity {
     public static final String EXTRA_BLOCK_ID = "extra_block_id";
     public static final String EXTRA_LEVEL_ID = "extra_level_id";
 
+    /**
+     * Inicializa la pantalla de explicación para el bloque y nivel seleccionados.
+     *
+     * @param savedInstanceState estado previo de la actividad, si existe.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

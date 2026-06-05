@@ -29,6 +29,11 @@ public class LevelSelectionActivity extends AppCompatActivity {
 
     private MainViewModel viewModel;
 
+    /**
+     * Inicializa la lista de niveles para el bloque recibido por intent.
+     *
+     * @param savedInstanceState estado previo de la actividad, si existe.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

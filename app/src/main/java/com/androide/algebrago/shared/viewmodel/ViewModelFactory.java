@@ -27,10 +27,22 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
 
     private final Application application;
 
+    /**
+     * Crea una factory con el contexto de aplicación requerido por AndroidViewModel.
+     *
+     * @param application instancia de aplicación para inyección en ViewModels.
+     */
     public ViewModelFactory(@NonNull Application application) {
         this.application = application;
     }
 
+    /**
+     * Instancia el ViewModel solicitado usando la aplicación compartida.
+     *
+     * @param modelClass tipo de ViewModel solicitado por la Activity/Fragment.
+     * @param <T>        subtipo concreto de {@link ViewModel}.
+     * @return instancia del ViewModel correspondiente.
+     */
     @NonNull
     @Override
     @SuppressWarnings("unchecked")

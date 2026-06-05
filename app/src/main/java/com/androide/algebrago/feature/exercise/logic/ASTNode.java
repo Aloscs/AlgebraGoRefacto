@@ -26,6 +26,12 @@ class ConstantNode extends ASTNode {
     /** @param value valor constante de este nodo. */
     public ConstantNode(double value) { this.value = value; }
 
+    /**
+     * Retorna directamente el valor constante del nodo.
+     *
+     * @param variables mapa de variables (no se usa en constantes).
+     * @return valor numérico constante.
+     */
     @Override
     public double evaluate(Map<String, Double> variables) { return value; }
 }
@@ -39,6 +45,12 @@ class VariableNode extends ASTNode {
     /** @param name nombre de la variable (ej. "x"). */
     public VariableNode(String name) { this.name = name; }
 
+    /**
+     * Evalúa la variable según el mapa recibido o retorna 0 si no existe.
+     *
+     * @param variables mapa de variables disponibles.
+     * @return valor de la variable o 0 si no está definida.
+     */
     @Override
     public double evaluate(Map<String, Double> variables) {
         // Si la variable (ej. "x") existe en el mapa, devuelve su valor, si no, asume 0
@@ -70,6 +82,12 @@ class OperatorNode extends ASTNode {
         this.right = right;
     }
 
+    /**
+     * Evalúa ambos subárboles y aplica el operador definido en el nodo.
+     *
+     * @param variables mapa de variables disponibles para la evaluación recursiva.
+     * @return resultado numérico de la operación binaria.
+     */
     @Override
     public double evaluate(Map<String, Double> variables) {
         double leftVal = left.evaluate(variables);

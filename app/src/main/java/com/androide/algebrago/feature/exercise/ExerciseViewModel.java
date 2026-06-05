@@ -78,6 +78,11 @@ public class ExerciseViewModel extends AndroidViewModel {
     private int blockId;
     private int levelId;
 
+    /**
+     * Crea el ViewModel y registra observadores de progreso para notificaciones de logros.
+     *
+     * @param application aplicación Android utilizada para resolver dependencias.
+     */
     public ExerciseViewModel(@NonNull Application application) {
         super(application);
         repository = EquationRepository.getInstance(application);
@@ -85,18 +90,39 @@ public class ExerciseViewModel extends AndroidViewModel {
         stateManager = new SessionStateManager();
 
         facade.getScoreManager().addObserver(new com.androide.algebrago.shared.observer.ProgressObserver() {
+            /**
+             * Callback sin uso para cambios de puntaje en este observador.
+             *
+             * @param newScore puntaje actualizado.
+             */
             @Override
             public void onScoreChanged(int newScore) {
             }
 
+            /**
+             * Callback sin uso para cambios de racha en este observador.
+             *
+             * @param newStreak racha actual.
+             */
             @Override
             public void onStreakChanged(int newStreak) {
             }
 
+            /**
+             * Callback sin uso para nivel completado en este observador.
+             *
+             * @param l identificador del nivel completado.
+             * @param b identificador del bloque.
+             */
             @Override
             public void onLevelCompleted(int l, int b) {
             }
 
+            /**
+             * Publica el logro desbloqueado para notificarlo en la vista.
+             *
+             * @param name nombre del logro.
+             */
             @Override
             public void onAchievementUnlocked(String name) {
                 // 3. Emite el nombre del logro a la Vista
@@ -105,12 +131,18 @@ public class ExerciseViewModel extends AndroidViewModel {
         });
     }
 
-    //para que el activity lo observe
+    /**
+     * Expone el último logro desbloqueado para mostrarlo en la vista.
+     *
+     * @return LiveData con el nombre del logro desbloqueado.
+     */
     public LiveData<String> getAchievementNotification() {
         return achievementNotification;
     }
 
-    //evitar que el toast vuelva a aparecer
+    /**
+     * Limpia la notificación actual de logro para evitar mostrarla nuevamente.
+     */
     public void clearAchievementNotification() {
         achievementNotification.setValue(null);
     }
@@ -128,6 +160,11 @@ public class ExerciseViewModel extends AndroidViewModel {
 
         repository.loadExercisesForLevel(blockId, levelId, new MutableLiveData<List<Exercise>>() {
 
+            /**
+             * Recibe la lista obtenida del repositorio, aplica fallback y publica los datos finales.
+             *
+             * @param value lista de ejercicios recuperada desde la fuente de datos.
+             */
             @Override
             public void postValue(List<Exercise> value) {
 
@@ -239,6 +276,11 @@ public class ExerciseViewModel extends AndroidViewModel {
         }
     }
 
+    /**
+     * Procesa la respuesta seleccionada cuando llega como texto.
+     *
+     * @param userAnswer valor elegido por el usuario.
+     */
     public void submitAnswerString(String userAnswer) {
         List<Exercise> list = exercises.getValue();
         if (list == null || currentIndex >= list.size()) return;
@@ -249,6 +291,11 @@ public class ExerciseViewModel extends AndroidViewModel {
         submitAnswer(isCorrect); // Llama a tu método original que ya tenías
     }
 
+    /**
+     * Evalúa la ecuación formada por fichas en modo balanza.
+     *
+     * @param placedTokens fichas ubicadas por el usuario en la balanza.
+     */
     public void submitAnswerList(List<String> placedTokens) {
         // Obtenemos los términos crudos que puso el usuario
         List<Term> userTerms = stringsToTermsLocal(placedTokens);
@@ -291,6 +338,11 @@ public class ExerciseViewModel extends AndroidViewModel {
         return stringToTerms(String.join("", tokens));
     }
 
+    /**
+     * Evalúa el balance en tiempo real para dar retroalimentación visual sin enviar respuesta.
+     *
+     * @param placedTokens fichas actualmente ubicadas por el usuario.
+     */
     public void evaluateBalanceRealTime(List<String> placedTokens) {
         List<Exercise> list = exercises.getValue();
         if (list == null || currentIndex >= list.size()) return;
@@ -336,28 +388,93 @@ public class ExerciseViewModel extends AndroidViewModel {
 
     // ── Getters de LiveData ───────────────────────────────────────────────────
 
+    /**
+     * Retorna la lista de ejercicios cargados para la sesión actual.
+     *
+     * @return LiveData con ejercicios del nivel.
+     */
     public LiveData<List<Exercise>> getExercises()       { return exercises; }
+    /**
+     * Retorna el ejercicio activo.
+     *
+     * @return LiveData con el ejercicio actual.
+     */
     public LiveData<Exercise> getCurrentExercise()        { return currentExercise; }
+    /**
+     * Retorna el resultado de validación de la última respuesta.
+     *
+     * @return LiveData con estado NONE/CORRECT/WRONG.
+     */
     public LiveData<AnswerResult> getAnswerResult()       { return answerResult; }
+    /**
+     * Retorna el puntaje acumulado de la sesión.
+     *
+     * @return LiveData con puntaje actual.
+     */
     public LiveData<Integer> getSessionScore()            { return sessionScore; }
+    /**
+     * Indica si la sesión de ejercicios ya terminó.
+     *
+     * @return LiveData que vale true al finalizar.
+     */
     public LiveData<Boolean> getSessionComplete()         { return sessionComplete; }
+    /**
+     * Expone si hay carga de ejercicios en progreso.
+     *
+     * @return LiveData de estado de carga.
+     */
     public LiveData<Boolean> getIsLoading()               { return isLoading; }
+    /**
+     * Expone si la respuesta actual está balanceada según la verificación en vivo.
+     *
+     * @return LiveData con estado visual de balance.
+     */
     public LiveData<Boolean> getIsCurrentlyBalanced() {
         return isCurrentlyBalanced;
     }
 
     // ── Getters de estado para FeedbackActivity ───────────────────────────────
 
+    /**
+     * Devuelve el historial resumido de respuestas de la sesión.
+     *
+     * @return lista de filas [ecuación, respuesta correcta, marca].
+     */
     public List<String[]> getSessionResults()            { return sessionResults; }
+    /**
+     * Devuelve una copia de referencia de la lista de ejercicios actual.
+     *
+     * @return lista de ejercicios actualmente cargados.
+     */
     public List<Exercise> getExerciseList()              { return exercises.getValue(); }
+    /**
+     * Retorna el puntaje total acumulado por el estudiante.
+     *
+     * @return puntaje total global.
+     */
     public int getTotalScore()                           { return facade.getTotalScore(); }
+    /**
+     * Indica si las reglas del estado permiten mostrar una pista.
+     *
+     * @return true si se puede mostrar pista.
+     */
     public boolean canShowHint()                         { return stateManager.canShowHint(); }
 
+    /**
+     * Obtiene la cantidad total de ejercicios cargados.
+     *
+     * @return total de ejercicios de la sesión.
+     */
     public int getExerciseCount() {
         List<Exercise> list = exercises.getValue();
         return list != null ? list.size() : 0;
     }
 
+    /**
+     * Obtiene el índice del ejercicio actual.
+     *
+     * @return índice base cero del ejercicio en curso.
+     */
     public int getCurrentIndex() { return currentIndex; }
 
     /**

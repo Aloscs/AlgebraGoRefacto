@@ -69,23 +69,44 @@ public class AchievementManager implements ProgressObserver {
     // Observer Events
     // ─────────────────────────────────────────────────────────────────────────
 
+    /**
+     * Recibe eventos de score global.
+     *
+     * @param newScore nuevo puntaje acumulado.
+     */
     @Override
     public void onScoreChanged(int newScore) {
         // Actualmente no hay achievements por score
     }
 
+    /**
+     * Evalúa logros asociados a rachas de respuestas correctas.
+     *
+     * @param streak racha actual de aciertos consecutivos.
+     */
     @Override
     public void onStreakChanged(int streak) {
 
         checkStreakAchievements(streak);
     }
 
+    /**
+     * Evalúa logros asociados a finalización de nivel.
+     *
+     * @param levelId identificador del nivel completado.
+     * @param blockId identificador del bloque del nivel.
+     */
     @Override
     public void onLevelCompleted(int levelId, int blockId) {
 
         checkLevelAchievements(levelId, blockId);
     }
 
+    /**
+     * Callback requerido por la interfaz; no se utiliza en esta implementación.
+     *
+     * @param achievementName nombre del logro desbloqueado.
+     */
     @Override
     public void onAchievementUnlocked(String achievementName) {
         // No se usa aquí

@@ -31,6 +31,11 @@ public class BlockSelectionActivity extends AppCompatActivity {
     private TextView tvScore;
     private RecyclerView rvBlocks;
 
+    /**
+     * Configura la pantalla de selección de bloques y conecta la UI con el ViewModel.
+     *
+     * @param savedInstanceState estado previo de la actividad, si existe.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +70,13 @@ public class BlockSelectionActivity extends AppCompatActivity {
         snap.attachToRecyclerView(rvBlocks);
 
         rvBlocks.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            /**
+             * Aplica un efecto visual de escala y transparencia según la distancia al centro.
+             *
+             * @param rv RecyclerView que reporta el desplazamiento.
+             * @param dx desplazamiento horizontal en píxeles.
+             * @param dy desplazamiento vertical en píxeles.
+             */
             @Override
             public void onScrolled(@NonNull RecyclerView rv, int dx, int dy) {
                 float cx = rv.getWidth() / 2f;

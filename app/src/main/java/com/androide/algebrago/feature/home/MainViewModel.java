@@ -33,6 +33,11 @@ public class MainViewModel extends AndroidViewModel {
 
     private final AppFacade facade;
 
+    /**
+     * Crea el ViewModel principal y carga datos iniciales para el home.
+     *
+     * @param application aplicación Android para resolver el facade singleton.
+     */
     public MainViewModel(@NonNull Application application) {
         super(application);
         facade = AppFacade.getInstance(application);
@@ -176,6 +181,9 @@ public class MainViewModel extends AndroidViewModel {
         }
     }
 
+    /**
+     * Limpia el estado observable cuando el ViewModel se destruye.
+     */
     @Override
     protected void onCleared() {
         super.onCleared();
