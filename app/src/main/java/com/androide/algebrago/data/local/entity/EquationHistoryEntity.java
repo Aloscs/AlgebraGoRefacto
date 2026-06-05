@@ -11,20 +11,37 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "equation_history")
 public class EquationHistoryEntity {
 
+    /** Identificador único generado automáticamente por Room. */
     @PrimaryKey(autoGenerate = true)
-    public int id; // Identificador único requerido por la rúbrica
+    public int id;
 
+    /** ID del bloque temático al que pertenece este intento. */
     public int blockId;
+
+    /** ID del nivel dentro del bloque al que pertenece este intento. */
     public int levelId;
 
-    // Aquí guardamos la estructura de la ecuación.
-    // Puedes guardar la ecuación cruda ("x + 2 = 5") o el JSON de tu List<Term>
+    /**
+     * Ecuación serializada como cadena de texto (ej. "x+2=5").
+     * Puede almacenarse como ecuación cruda o como JSON de List&lt;Term&gt;.
+     */
     public String serializedEquation;
 
+    /** {@code true} si el estudiante respondió correctamente; {@code false} en caso contrario. */
     public boolean isCorrect;
 
-    public long timestamp; // Marca de tiempo (cuándo se resolvió)
+    /** Marca de tiempo Unix (epoch en milisegundos) de cuándo se resolvió el ejercicio. */
+    public long timestamp;
 
+    /**
+     * Construye un registro de historial con todos sus campos.
+     *
+     * @param blockId            ID del bloque temático.
+     * @param levelId            ID del nivel dentro del bloque.
+     * @param serializedEquation ecuación serializada como texto.
+     * @param isCorrect          {@code true} si la respuesta fue correcta.
+     * @param timestamp          marca de tiempo en milisegundos (epoch).
+     */
     public EquationHistoryEntity(int blockId, int levelId, String serializedEquation, boolean isCorrect, long timestamp) {
         this.blockId = blockId;
         this.levelId = levelId;

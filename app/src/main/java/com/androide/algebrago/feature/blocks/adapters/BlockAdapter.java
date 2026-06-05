@@ -15,23 +15,47 @@ import com.google.android.material.button.MaterialButton;
 import java.util.List;
 
 /**
- * PATTERN UI: Carousel / Horizontal Scrollable List (Tidwell).
- * Each block is a mini-screen card in horizontal RecyclerView.
+ * Adaptador de RecyclerView para la pantalla de selección de bloques temáticos.
+ *
+ * PATRÓN UI: Carrusel / Lista horizontal desplazable (Tidwell).
+ * Cada bloque se presenta como una tarjeta a pantalla completa en un
+ * RecyclerView horizontal con efecto de escala al desplazar.
  */
 public class BlockAdapter extends RecyclerView.Adapter<BlockAdapter.BlockVH> {
 
+    /**
+     * Contrato de callback para notificar la selección de un bloque.
+     */
     public interface OnBlockClick {
+        /**
+         * Se invoca cuando el usuario pulsa sobre un bloque.
+         *
+         * @param block bloque seleccionado.
+         */
         void onClick(Block block);
     }
 
     private final List<Block> blocks;
     private final OnBlockClick listener;
 
+    /**
+     * Construye el adaptador con la lista de bloques y el listener de selección.
+     *
+     * @param blocks   lista de bloques a mostrar.
+     * @param listener callback invocado al pulsar un bloque.
+     */
     public BlockAdapter(List<Block> blocks, OnBlockClick listener) {
         this.blocks = blocks;
         this.listener = listener;
     }
 
+    /**
+     * Infla el layout de la tarjeta de bloque y crea su ViewHolder.
+     *
+     * @param parent   grupo de vistas padre.
+     * @param viewType tipo de vista (único en este adaptador).
+     * @return nuevo {@link BlockVH} con la vista inflada.
+     */
     @NonNull
     @Override
     public BlockVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -40,6 +64,13 @@ public class BlockAdapter extends RecyclerView.Adapter<BlockAdapter.BlockVH> {
         return new BlockVH(v);
     }
 
+    /**
+     * Vincula los datos del bloque al ViewHolder en la posición indicada.
+     * Actualiza los segmentos de progreso visual según el porcentaje del bloque.
+     *
+     * @param h   ViewHolder a rellenar.
+     * @param pos posición del elemento en la lista.
+     */
     @Override
     public void onBindViewHolder(@NonNull BlockVH h, int pos) {
         Block b = blocks.get(pos);
@@ -69,6 +100,9 @@ public class BlockAdapter extends RecyclerView.Adapter<BlockAdapter.BlockVH> {
         h.itemView.setOnClickListener(v -> listener.onClick(b));
     }
 
+    /**
+     * @return número total de bloques en la lista.
+     */
     @Override
     public int getItemCount() {
         return blocks.size();

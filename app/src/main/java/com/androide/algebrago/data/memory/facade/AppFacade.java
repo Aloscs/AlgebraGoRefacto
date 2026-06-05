@@ -35,6 +35,13 @@ public class AppFacade {
         restoreProgress();
     }
 
+    /**
+     * Retorna la instancia única del Facade, creándola si aún no existe.
+     * Patrón Singleton con sincronización para acceso seguro desde múltiples hilos.
+     *
+     * @param context contexto de la aplicación o actividad.
+     * @return instancia única de {@link AppFacade}.
+     */
     public static synchronized AppFacade getInstance(Context context) {
         if (instance == null) instance = new AppFacade(context.getApplicationContext());
         return instance;
@@ -42,13 +49,29 @@ public class AppFacade {
 
     // ── Public API used by Activities ─────────────────────────────────────────
 
+    /**
+     * @return lista completa de bloques temáticos con sus niveles y progreso.
+     */
     public List<Block> getAllBlocks() { return blocks; }
 
+    /**
+     * Busca un bloque por su identificador.
+     *
+     * @param blockId ID del bloque a buscar.
+     * @return el {@link Block} correspondiente, o {@code null} si no existe.
+     */
     public Block getBlock(int blockId) {
         for (Block b : blocks) if (b.getId() == blockId) return b;
         return null;
     }
 
+    /**
+     * Busca un nivel dentro de un bloque específico.
+     *
+     * @param blockId ID del bloque que contiene el nivel.
+     * @param levelId ID del nivel a buscar.
+     * @return el {@link Level} correspondiente, o {@code null} si no existe.
+     */
     public Level getLevel(int blockId, int levelId) {
         Block b = getBlock(blockId);
         if (b == null) return null;
@@ -56,6 +79,14 @@ public class AppFacade {
         return null;
     }
 
+    /**
+     * Retorna una copia clonada de los ejercicios de un nivel (Patrón Prototype).
+     * Clonar evita que las modificaciones durante la sesión afecten a las plantillas originales.
+     *
+     * @param blockId ID del bloque.
+     * @param levelId ID del nivel.
+     * @return lista de ejercicios clonados; vacía si el nivel no existe.
+     */
     public List<Exercise> getExercisesForLevel(int blockId, int levelId) {
         Level l = getLevel(blockId, levelId);
         if (l == null) return new ArrayList<>();
@@ -65,16 +96,33 @@ public class AppFacade {
         return cloned;
     }
 
+    /**
+     * Registra una respuesta correcta: suma puntos y aumenta la racha.
+     * Si no es el primer intento, los puntos se reducen (mínimo 10).
+     *
+     * @param points       puntos base del ejercicio.
+     * @param firstAttempt {@code true} si es el primer intento del estudiante.
+     */
     public void submitCorrectAnswer(int points, boolean firstAttempt) {
         int awarded = firstAttempt ? points : Math.max(10, points / 3);
         scoreManager.addPoints(awarded);
         scoreManager.incrementStreak();
     }
 
+    /**
+     * Registra una respuesta incorrecta: resetea la racha actual del estudiante.
+     */
     public void submitWrongAnswer() {
         scoreManager.resetStreak();
     }
 
+    /**
+     * Marca un nivel como completado, guarda el progreso del bloque y
+     * verifica si se ha desbloqueado algún logro.
+     *
+     * @param blockId ID del bloque al que pertenece el nivel.
+     * @param levelId ID del nivel completado.
+     */
     public void markLevelComplete(int blockId, int levelId) {
         Level l = getLevel(blockId, levelId);
         if (l != null) {
@@ -91,10 +139,14 @@ public class AppFacade {
         scoreManager.checkAndUnlockAchievement(Achievement.AchievementType.LEVEL_COMPLETE, 1);
     }
 
+    /** @return puntuación total acumulada del estudiante. */
     public int getTotalScore()    { return scoreManager.getTotalScore(); }
+    /** @return racha actual de respuestas correctas consecutivas. */
     public int getCurrentStreak() { return scoreManager.getCurrentStreak(); }
+    /** @return instancia del {@link ScoreManager} para acceso avanzado. */
     public ScoreManager getScoreManager() { return scoreManager; }
 
+    /** @return lista de todos los logros con su estado de desbloqueo. */
     public List<Achievement> getAchievements() { return scoreManager.getAchievements(); }
 
     // ── Private helpers ───────────────────────────────────────────────────────

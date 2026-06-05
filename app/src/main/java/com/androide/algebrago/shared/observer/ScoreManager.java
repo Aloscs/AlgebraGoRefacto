@@ -43,6 +43,12 @@ public class ScoreManager {
         loadAchievementState();
     }
 
+    /**
+     * Retorna la instancia única del ScoreManager, creándola si aún no existe.
+     *
+     * @param context contexto de la aplicación o actividad.
+     * @return instancia única de {@link ScoreManager}.
+     */
     public static synchronized ScoreManager getInstance(Context context) {
         if (instance == null) instance = new ScoreManager(context);
         return instance;
@@ -50,11 +56,28 @@ public class ScoreManager {
 
     // ── Observer registration ─────────────────────────────────────────────────
 
+    /**
+     * Registra un observador para recibir notificaciones de cambios.
+     * No se registra si ya estaba en la lista.
+     *
+     * @param o observador a registrar.
+     */
     public void addObserver(ProgressObserver o)    { if (!observers.contains(o)) observers.add(o); }
+
+    /**
+     * Elimina un observador de la lista de notificaciones.
+     *
+     * @param o observador a eliminar.
+     */
     public void removeObserver(ProgressObserver o) { observers.remove(o); }
 
     // ── Score mutations ───────────────────────────────────────────────────────
 
+    /**
+     * Suma puntos a la puntuación total, persiste el cambio y notifica a los observadores.
+     *
+     * @param points puntos a añadir.
+     */
     public void addPoints(int points) {
         totalScore += points;
         save();
@@ -62,6 +85,10 @@ public class ScoreManager {
         checkScoreAchievements();
     }
 
+    /**
+     * Incrementa la racha actual, actualiza la mejor racha si corresponde,
+     * persiste los valores y notifica a los observadores.
+     */
     public void incrementStreak() {
         currentStreak++;
         if (currentStreak > bestStreak) bestStreak = currentStreak;
@@ -70,12 +97,21 @@ public class ScoreManager {
         checkStreakAchievements();
     }
 
+    /**
+     * Resetea la racha actual a 0, persiste el cambio y notifica a los observadores.
+     */
     public void resetStreak() {
         currentStreak = 0;
         save();
         for (ProgressObserver o : observers) o.onStreakChanged(currentStreak);
     }
 
+    /**
+     * Notifica a todos los observadores que un nivel ha sido completado.
+     *
+     * @param levelId ID del nivel completado.
+     * @param blockId ID del bloque al que pertenece.
+     */
     public void notifyLevelCompleted(int levelId, int blockId) {
         for (ProgressObserver o : observers) o.onLevelCompleted(levelId, blockId);
     }
@@ -95,6 +131,12 @@ public class ScoreManager {
         // hook for score-based achievements in the future
     }
 
+    /**
+     * Desbloquea un logro si aún no está desbloqueado, persiste su estado
+     * y notifica a todos los observadores.
+     *
+     * @param achievement logro a desbloquear.
+     */
     public void unlockAchievement(Achievement achievement) {
         if (!achievement.isUnlocked()) {
             achievement.setUnlocked(true);
@@ -104,6 +146,12 @@ public class ScoreManager {
         }
     }
 
+    /**
+     * Verifica si algún logro del tipo indicado puede desbloquearse con el valor dado.
+     *
+     * @param type  tipo de logro a verificar.
+     * @param value valor actual (ej. racha actual, niveles completados).
+     */
     public void checkAndUnlockAchievement(Achievement.AchievementType type, int value) {
         for (Achievement a : achievements) {
             if (!a.isUnlocked() && a.getType() == type && value >= a.getRequiredValue()) {
@@ -171,27 +219,59 @@ public class ScoreManager {
 
     // ── Getters ───────────────────────────────────────────────────────────────
 
+    /** @return puntuación total acumulada. */
     public int getTotalScore()    { return totalScore; }
+    /** @return racha actual de respuestas correctas consecutivas. */
     public int getCurrentStreak() { return currentStreak; }
+    /** @return mejor racha registrada. */
     public int getBestStreak()    { return bestStreak; }
+    /** @return lista de todos los logros con su estado de desbloqueo. */
     public List<Achievement> getAchievements() { return achievements; }
 
+    /**
+     * Persiste el porcentaje de progreso de un bloque.
+     *
+     * @param blockId ID del bloque.
+     * @param percent porcentaje de progreso (0–100).
+     */
     public void saveBlockProgress(int blockId, int percent) {
         prefs.edit().putInt("block_progress_" + blockId, percent).apply();
     }
 
+    /**
+     * Recupera el porcentaje de progreso guardado de un bloque.
+     *
+     * @param blockId ID del bloque.
+     * @return porcentaje de progreso (0 si no hay registro).
+     */
     public int getBlockProgress(int blockId) {
         return prefs.getInt("block_progress_" + blockId, 0);
     }
 
+    /**
+     * Marca un nivel como completado en las preferencias persistidas.
+     *
+     * @param levelId ID del nivel a marcar.
+     */
     public void saveLevelCompleted(int levelId) {
         prefs.edit().putBoolean("level_done_" + levelId, true).apply();
     }
 
+    /**
+     * Indica si un nivel ha sido completado previamente.
+     *
+     * @param levelId ID del nivel a consultar.
+     * @return {@code true} si el nivel ya fue completado.
+     */
     public boolean isLevelCompleted(int levelId) {
         return prefs.getBoolean("level_done_" + levelId, false);
     }
 
+    /**
+     * Registra el inicio de sesión diario.
+     * Si el usuario inició sesión el día anterior, incrementa la racha diaria
+     * y verifica logros de racha. Si hay un día de por medio, reinicia la racha.
+     */
     public void saveDailyLogin() {
         long today = System.currentTimeMillis() / 86400000L;
         long lastDay = prefs.getLong(KEY_DAILY, -1);

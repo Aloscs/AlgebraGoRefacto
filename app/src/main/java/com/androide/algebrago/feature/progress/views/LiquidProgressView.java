@@ -7,12 +7,32 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 
+/**
+ * Vista personalizada que muestra el progreso mediante un efecto de líquido animado.
+ *
+ * Dibuja un círculo con:
+ * <ul>
+ *   <li>Un borde sólido.</li>
+ *   <li>Un relleno tipo "agua" que sube según el porcentaje de progreso.</li>
+ *   <li>Una onda animada en el borde del agua para dar sensación de movimiento.</li>
+ *   <li>El porcentaje numérico centrado sobre el círculo.</li>
+ * </ul>
+ *
+ * Uso en XML: incluir como {@code <com.androide.algebrago.feature.progress.views.LiquidProgressView>}
+ * en el layout de {@code item_progress_block}.
+ */
 public class LiquidProgressView extends View {
 
     private Paint borderPaint, waterPaint, textPaint;
     private float progress = 0f;
     private float waveOffset = 0f;
 
+    /**
+     * Constructor requerido por el sistema de layouts de Android.
+     *
+     * @param context contexto de la aplicación.
+     * @param attrs   atributos XML de la vista.
+     */
     public LiquidProgressView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
@@ -44,6 +64,12 @@ public class LiquidProgressView extends View {
         animator.start();
     }
 
+    /**
+     * Actualiza el nivel de progreso y redibuja la vista.
+     * El valor se recorta automáticamente al rango [0.0, 1.0].
+     *
+     * @param p progreso como fracción entre 0.0 (vacío) y 1.0 (completo).
+     */
     public void setProgress(float p) {
         progress = Math.max(0f, Math.min(1f, p));
         invalidate();
@@ -88,6 +114,11 @@ public class LiquidProgressView extends View {
         float textY = cy - (fm.ascent + fm.descent) / 2;
         canvas.drawText(pct, cx, textY, textPaint);
     }
+    /**
+     * Cambia el color del líquido animado.
+     *
+     * @param hexColor color en formato hexadecimal (ej. "#B79CFF").
+     */
     public void setLiquidColor(String hexColor) {
         waterPaint.setColor(Color.parseColor(hexColor));
         invalidate();

@@ -14,20 +14,51 @@ import com.google.android.material.button.MaterialButton;
 
 import java.util.List;
 
+/**
+ * Adaptador de RecyclerView para la pantalla de selección de niveles.
+ *
+ * Muestra cada {@link Level} como una tarjeta con nombre, descripción y estado,
+ * alternando la posición horizontal (izquierda/derecha) para un efecto visual
+ * en zigzag.
+ *
+ * Patrón UI: "Wizard steps" (Tidwell) — lista de pasos progresivos donde cada
+ * ítem representa una etapa del aprendizaje.
+ */
 public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelVH> {
 
+    /**
+     * Contrato de callback para notificar la selección de un nivel.
+     */
     public interface OnLevelClick {
+        /**
+         * Se invoca cuando el usuario pulsa sobre un nivel.
+         *
+         * @param level nivel seleccionado.
+         */
         void onClick(Level level);
     }
 
     private final List<Level> levels;
     private final OnLevelClick listener;
 
+    /**
+     * Construye el adaptador con la lista de niveles y el listener de selección.
+     *
+     * @param levels   lista de niveles a mostrar.
+     * @param listener callback invocado al pulsar un nivel.
+     */
     public LevelAdapter(List<Level> levels, OnLevelClick listener) {
         this.levels = levels;
         this.listener = listener;
     }
 
+    /**
+     * Infla el layout de la tarjeta de nivel y crea su ViewHolder.
+     *
+     * @param parent   grupo de vistas padre.
+     * @param viewType tipo de vista (único en este adaptador).
+     * @return nuevo {@link LevelVH} con la vista inflada.
+     */
     @NonNull
     @Override
     public LevelVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -36,6 +67,13 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelVH> {
         return new LevelVH(v);
     }
 
+    /**
+     * Vincula los datos del nivel al ViewHolder en la posición indicada.
+     * Aplica un desplazamiento alternado (zigzag) según la paridad de la posición.
+     *
+     * @param h   ViewHolder a rellenar.
+     * @param pos posición del elemento en la lista.
+     */
     @Override
     public void onBindViewHolder(@NonNull LevelVH h, int pos) {
         Level level = levels.get(pos);
@@ -63,6 +101,9 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelVH> {
         h.itemView.setOnClickListener(v -> listener.onClick(level));
     }
 
+    /**
+     * @return número total de niveles en la lista.
+     */
     @Override
     public int getItemCount() {
         return levels.size();

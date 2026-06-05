@@ -6,12 +6,21 @@ import java.util.List;
 import java.util.Stack;
 
 /**
- * Algoritmo Puente: Shunting Yard modificado para AST.
- * Convierte una lista plana de Terms en un Árbol de Jerarquía Matemática.
+ * Algoritmo Puente: Shunting Yard modificado para construir un AST.
+ * Convierte una lista plana de {@link Term} en un Árbol de Sintaxis Abstracta (AST)
+ * respetando la jerarquía de operadores matemáticos (PEMDAS).
+ *
  * AUDITORÍA DE CÓDIGO: Se verificaron las precedencias y el manejo de paréntesis.
  */
 public class EquationParser {
 
+    /**
+     * Convierte una lista de términos en un AST evaluable.
+     * Los términos de tipo {@link Term.TermType#BLANK} y el signo {@code =} se ignoran.
+     *
+     * @param terms lista de términos que representan la ecuación o expresión.
+     * @return nodo raíz del AST; devuelve {@code ConstantNode(0)} si la lista está vacía.
+     */
     public static ASTNode parse(List<Term> terms) {
         Stack<ASTNode> nodes = new Stack<>();
         Stack<Character> operators = new Stack<>();

@@ -17,6 +17,16 @@ import com.androide.algebrago.feature.score.ScoreActivity;
 import com.androide.algebrago.feature.exercise.ExerciseActivity;
 import com.androide.algebrago.shared.viewmodel.ViewModelFactory;
 
+/**
+ * MVVM — Vista de retroalimentación posterior a un nivel.
+ *
+ * Muestra al estudiante un resumen de sus respuestas: ecuación, respuesta
+ * correcta, marca (✓/✗) y la explicación paso a paso expandible.
+ * También permite reintentar el nivel o finalizar la sesión.
+ *
+ * Recibe los datos del nivel mediante los extras del {@link android.content.Intent}
+ * definidos como constantes públicas ({@code EXTRA_*}).
+ */
 public class FeedbackActivity extends AppCompatActivity {
 
     public static final String EXTRA_BLOCK_ID    = "extra_block_id";
@@ -102,6 +112,13 @@ public class FeedbackActivity extends AppCompatActivity {
     }
 
     // 6. El método UI ahora recibe el objeto procesado directamente
+    /**
+     * Infla y configura una tarjeta de resultado para un ejercicio de la sesión.
+     *
+     * @param container vista padre donde se añade la tarjeta.
+     * @param idx       índice base 0 del ejercicio (se muestra como idx+1).
+     * @param item      datos procesados del ejercicio (ecuación, respuesta, marca, explicación).
+     */
     private void addResultCard(LinearLayout container, int idx, FeedbackViewModel.FeedbackItem item) {
         View card = LayoutInflater.from(this)
                 .inflate(R.layout.item_feedback_card, container, false);
